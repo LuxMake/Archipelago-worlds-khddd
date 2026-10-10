@@ -312,6 +312,7 @@ class KHDDDWorld(World):
         slot_data["win_con"] = int(self.options.goal.value)
 
         slot_data["lord_kyroo"] = str(self.options.lord_kyroo.value)
+        slot_data["link_board_sanity"] = int(self.options.link_board_sanity.value)
         slot_data["local_item_notifs"] = str(self.options.received_notifications.value)
         slot_data["remote_item_notifs"] = str(self.options.sent_notifications.value)
 

@@ -226,6 +226,9 @@ class KHDDDContext(CommonContext):
             Utils.async_start(async_get_items(self), name="KHDDDGetItems")
 
     def hint_boards(self, spiritID:int=0):
+        # Seeds without the key predate the option and always have board checks
+        if not self.slot_data_info.get("link_board_sanity", 1):
+            return
         print(f"spiritID {spiritID}: type {type(spiritID)}")
         spiritName = get_spirit_by_id(spiritID)
         print("Spirit Name: "+spiritName)
