@@ -72,6 +72,7 @@ class KHDDDWorld(World):
 
     def create_items(self) -> None:
         self.place_predetermined_items()
+        self.place_board_filler()
         self.place_starting_items()
         starting_worlds = self.determine_starting_worlds()
 
@@ -258,6 +259,13 @@ class KHDDDWorld(World):
                 self.get_location("The World That Never Was Xemnas Bonus Slot 1 [Sora]").place_locked_item(self.create_item("Victory"))
         else: #Lucky emblem hunt
             self.get_location("All Lucky Emblems Found [Sora] [Riku]").place_locked_item(self.create_item("Victory"))
+
+    def place_board_filler(self) -> None:
+        if self.options.link_board_sanity:
+            return
+        for location in self.multiworld.get_unfilled_locations(self.player):
+            if location_data_table[location.name].category == "Board":
+                location.place_locked_item(self.create_item(self.get_filler_item_name()))
 
     def create_regions(self) -> None:
         create_regions(self.multiworld, self.player, self.options, self)

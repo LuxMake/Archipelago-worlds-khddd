@@ -125,6 +125,14 @@ class LordKyroo(Toggle):
     """
     default = True
 
+class LinkBoardSanity(Toggle):
+    """
+    Determines whether Ability Link Board nodes can contain any item.
+    If disabled, every node is filled with local filler items.
+    """
+    display_name = "Link Board Sanity"
+    default = True
+
 class LevelCap(Range):
     """
     Determines how many level locations can contain non-filler items.
@@ -344,6 +352,7 @@ class KHDDDOptions(PerGameCommonOptions):
     starting_worlds: StartingWorlds
     superbosses: Superbosses
     lord_kyroo: LordKyroo
+    link_board_sanity: LinkBoardSanity
     play_destiny_islands: PlayDestinyIslands
     skip_light_cycle: SkipLightCycle
     fast_go_mode: FastGoMode
