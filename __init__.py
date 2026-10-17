@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from BaseClasses import Region, Entrance, Tutorial, ItemClassification
 from worlds.AutoWorld import World
 from .Items import KHDDDItem, item_data_table, item_table, item_name_groups, get_items_by_category, get_items_by_character_category, SPIRITLIST, get_spirit_by_id
-from .Locations import KHDDDLocation, location_data_table, location_table, event_location_table, get_locations_by_region, gate_thresholds
+from .Locations import KHDDDLocation, location_data_table, location_name_groups, location_table, event_location_table, get_locations_by_region, gate_thresholds
 from .Options import KHDDDOptions
 from .Regions import region_data_table, create_regions
 from .Rules import set_rules, beat_x_sora_worlds, beat_x_riku_worlds
@@ -29,6 +29,7 @@ class KHDDDWorld(World):
     location_name_to_id = {name: data.code for name, data in location_data_table.items()}
     item_name_to_id = item_table
     item_name_groups = item_name_groups
+    location_name_groups = location_name_groups
     origin_region_name = "World"
 
     ids_for_gates = []
@@ -392,9 +393,9 @@ class KHDDDWorld(World):
             node_num = f"{(x+1):02d}"
             loc_name = spiritName+" Node "+node_num
             if character == 1:
-                add_rule(self.get_location(loc_name), lambda state: beat_x_sora_worlds(state, self.player, worldReq))
+                self.set_rule(self.get_location(loc_name), beat_x_sora_worlds(worldReq))
             else:
-                add_rule(self.get_location(loc_name), lambda state: beat_x_riku_worlds(state, self.player, worldReq))
+                self.set_rule(self.get_location(loc_name), beat_x_riku_worlds(worldReq))
 
     def using_vanilla_stats(self):
         is_vanilla = 0

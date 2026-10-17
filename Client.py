@@ -242,7 +242,7 @@ class KHDDDContext(CommonContext):
             asyncio.create_task(self.send_msgs([{
                 "cmd": "LocationScouts",
                 "locations": idTbl,
-                "create_as_hint": 2
+                "create_as_hint": 0
             }]), name="KHDDDScoutBoard")
 
     def set_data_storage(self, world, room, character):

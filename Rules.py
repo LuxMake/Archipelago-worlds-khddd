@@ -91,17 +91,17 @@ def set_rules(khdddworld):
     #Sora Level Rules
     if (options.character == 0 or options.character == 1) and options.stats_on_levels < 3:
         for num in range(2, 5):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), HasFromListUnique(*SORA_WORLDS, count=1))
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(1))
         for num in range(6, 10):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), AtLeast(2, *[Has(world) for world in SORA_WORLDS]))
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(2))
         for num in range(11, 15):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), HasFromListUnique(*SORA_WORLDS, count=3))
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(3))
         for num in range(16, 20):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + str(num)), HasFromListUnique(*SORA_WORLDS, count=4))
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + str(num)), has_x_sora_worlds(4))
         for num in range(21, 25):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + str(num)), HasFromListUnique(*SORA_WORLDS, count=5))
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + str(num)), has_x_sora_worlds(5))
         for num in range(26, 99):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level "+ str(num)), HasFromListUnique(*SORA_WORLDS, count=6))
+            khdddworld.set_rule(khdddworld.get_location("Sora Level "+ str(num)), has_x_sora_worlds(6))
 
 
     # Riku Level Rules
