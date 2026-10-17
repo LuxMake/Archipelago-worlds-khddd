@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 
 from BaseClasses import Region, Entrance, Tutorial, ItemClassification
 from worlds.AutoWorld import World
-from .Items import KHDDDItem, item_data_table, item_table, get_items_by_category, get_items_by_character_category, SPIRITLIST, get_spirit_by_id
+from .Items import KHDDDItem, item_data_table, item_table, item_name_groups, get_items_by_category, get_items_by_character_category, SPIRITLIST, get_spirit_by_id
 from .Locations import KHDDDLocation, location_data_table, location_table, event_location_table, get_locations_by_region, gate_thresholds
 from .Options import KHDDDOptions
 from .Regions import region_data_table, create_regions
@@ -28,6 +28,7 @@ class KHDDDWorld(World):
     #location_name_to_id = event_location_table
     location_name_to_id = {name: data.code for name, data in location_data_table.items()}
     item_name_to_id = item_table
+    item_name_groups = item_name_groups
     origin_region_name = "World"
 
     ids_for_gates = []
@@ -99,7 +100,6 @@ class KHDDDWorld(World):
         #item_pool += [self.create_item("Meow Wow Recipe")]
         #item_pool += [self.create_item("Komory Bat Recipe")]
         for x in self.recipes_in_pool:
-            print("CREATING ITEM FOR "+x)
             item_pool += [self.create_item(x)]
 
         self.gate_requirements = self.get_gate_requirements()

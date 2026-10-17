@@ -1,5 +1,5 @@
 #Items
-from typing import Callable, Dict, NamedTuple, Optional, TYPE_CHECKING
+from typing import Callable, Dict, NamedTuple, Optional, TYPE_CHECKING, Set
 
 from BaseClasses import Item, ItemClassification
 
@@ -1699,12 +1699,8 @@ def get_spirit_by_id(sid:int) -> str:
 
 item_table = {name: data.code for name, data in item_data_table.items() if data.code is not None}
 
-#event_item_table: Dict[str, KHDDDItemData] = {}
-
-#Make item categories
-#item_name_groups: Dict[str, Set[str]] = {}
-#for item in item_data_table.keys():
-#    category = item_data_table[item].category
-#    if category not in item_name_groups.keys():
-#        item_name_groups[category] = set()
-#    item_name_groups[category].add(item)
+item_name_groups: Dict[str, Set] = {
+    "Recipes":set()
+}
+for key in get_items_by_category("Recipe"):
+    item_name_groups["Recipes"].add(key)
