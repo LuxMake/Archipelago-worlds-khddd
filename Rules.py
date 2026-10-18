@@ -93,7 +93,7 @@ def set_rules(khdddworld):
 
     #Sora Level Rules
     if (options.character == 0 or options.character == 1) and options.stats_on_levels < 3:
-        for num in range(2, 5):
+        for num in range(2, 6):
             khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(1))
         for num in range(5, 10):
             khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(2))
@@ -109,7 +109,7 @@ def set_rules(khdddworld):
 
     # Riku Level Rules
     if (options.character == 0 or options.character == 2) and options.stats_on_levels < 3:
-        for num in range(2, 5):
+        for num in range(2, 6):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(1))
         for num in range(5, 10):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(2))
@@ -357,7 +357,7 @@ def set_rules(khdddworld):
                  HasAny("Double Flight", "High Jump", "Flowmotion") | can_infinite_jump())
 
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Garden Royal Cake [Riku]"),
-                 HasAny("Rail Slide, Flowmotion") | can_infinite_jump())
+                 HasAny("Rail Slide", "Flowmotion") | can_infinite_jump())
 
         ###################################
         ########La Cite des Cloches########
@@ -526,34 +526,34 @@ def set_rules(khdddworld):
         #####Snowgleam Wood#####
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Ice Barrage [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                               & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                               & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Candy Goggles [Riku]"),
                             HasAny("Flowmotion", "Rail Slide")
-                            & HasAny("High Jump", "Double Flight",
-                                     "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                            & (HasAny("High Jump", "Double Flight",
+                                     "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Block-It Chocolate [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Ice Dream Cone 3 [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Dulcet Fancy [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Confetti Candy 3 [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
 
         #####Story#####
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Chernobog Bonus Slot 1 [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Chernobog Bonus Slot 2 [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Counterpoint Reward [Riku]"),
                  HasAny("Flowmotion", "Rail Slide")
-                 & HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
 
         ###################################
         #####The World That Never Was######
@@ -568,11 +568,11 @@ def set_rules(khdddworld):
                  HasAny("Flowmotion", "Rail Slide", "High Jump") | can_infinite_jump() | can_pole_jump())
         #Parkour chests
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Delusive Beginning Second Elixir [Riku]"),
-                            HasAny("Flowmotion", "High Jump", "Doubleflight") | can_infinite_jump())
+                            HasAny("Flowmotion", "High Jump", "Double Flight") | can_infinite_jump())
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Delusive Beginning Dulcet Fantasy [Riku]"),
-                            HasAny("Flowmotion", "High Jump", "Doubleflight") | can_infinite_jump())
+                            HasAny("Flowmotion", "High Jump", "Double Flight") | can_infinite_jump())
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Delusive Beginning Dark Splicer [Riku]"),
-                            HasAny("Flowmotion", "High Jump", "Doubleflight") | can_infinite_jump())
+                            HasAny("Flowmotion", "High Jump", "Double Flight") | can_infinite_jump())
 
         #Fact Within Fiction
 
