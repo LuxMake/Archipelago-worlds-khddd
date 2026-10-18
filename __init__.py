@@ -33,6 +33,7 @@ class KHDDDWorld(World):
 
     ids_for_gates = []
     gate_requirements = []
+    gate_rules = {}
     recipes_in_pool = []
 
     def create_item(self, name: str) -> KHDDDItem:
@@ -42,6 +43,7 @@ class KHDDDWorld(World):
         super(KHDDDWorld, self).__init__(multiworld, player)
         self.ids_for_gates = []
         self.gate_requirements = []
+        self.gate_rules = {}
         self.recipes_in_pool = []
 
 
@@ -400,10 +402,11 @@ class KHDDDWorld(World):
         for x in range(gated_nodes[gateNum], end_node-1):
             node_num = f"{(x+1):02d}"
             loc_name = spiritName+" Node "+node_num
+            #Combined with the node's recipe rule in set_rules
             if character == 1:
-                self.set_rule(self.get_location(loc_name), beat_x_sora_worlds(worldReq))
+                self.gate_rules[loc_name] = beat_x_sora_worlds(worldReq)
             else:
-                self.set_rule(self.get_location(loc_name), beat_x_riku_worlds(worldReq))
+                self.gate_rules[loc_name] = beat_x_riku_worlds(worldReq)
 
     def using_vanilla_stats(self):
         is_vanilla = 0

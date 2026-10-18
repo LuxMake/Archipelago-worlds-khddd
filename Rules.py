@@ -7,7 +7,7 @@ from BaseClasses import ItemClassification
 from .Locations import KHDDDLocation, location_data_table, location_name_groups
 from .Items import get_items_by_category, SPIRITLIST
 
-from rule_builder.rules import Rule, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
+from rule_builder.rules import Rule, True_, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
 
 if TYPE_CHECKING:
     from . import KHDDDWorld
@@ -72,6 +72,9 @@ def can_pole_jump() -> Rule[Any]:
 def post_office_access() -> Rule[Any]:
     return HasAny("Wall Kick", "Glide", "Rail Slide") | Has("Flowmotion")
 
+def grid_access_sora() -> Rule[Any]:
+    return HasAny("Glide", "Superglide", "Rail Slide", "Flowmotion") | can_infinite_jump()
+
 def set_rules(khdddworld):
     multiworld = khdddworld.multiworld
     player = khdddworld.player
@@ -83,7 +86,7 @@ def set_rules(khdddworld):
 
         if SPIRITLIST[spirit_name] in khdddworld.ids_for_gates: #Only add rule for recipes in the pool
             for nodes in data:
-                khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe"))
+                khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & khdddworld.gate_rules.get(nodes, True_()))
 
 
     #Ensure the player is not expected to level grind much for checks
@@ -92,31 +95,31 @@ def set_rules(khdddworld):
     if (options.character == 0 or options.character == 1) and options.stats_on_levels < 3:
         for num in range(2, 5):
             khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(1))
-        for num in range(6, 10):
+        for num in range(5, 10):
             khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(2))
-        for num in range(11, 15):
+        for num in range(10, 15):
             khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(3))
-        for num in range(16, 20):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + str(num)), has_x_sora_worlds(4))
-        for num in range(21, 25):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level " + str(num)), has_x_sora_worlds(5))
-        for num in range(26, 99):
-            khdddworld.set_rule(khdddworld.get_location("Sora Level "+ str(num)), has_x_sora_worlds(6))
+        for num in range(15, 20):
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(4))
+        for num in range(20, 25):
+            khdddworld.set_rule(khdddworld.get_location("Sora Level " + f"{num:02d}"), has_x_sora_worlds(5))
+        for num in range(25, 100):
+            khdddworld.set_rule(khdddworld.get_location("Sora Level "+ f"{num:02d}"), has_x_sora_worlds(6))
 
 
     # Riku Level Rules
     if (options.character == 0 or options.character == 2) and options.stats_on_levels < 3:
         for num in range(2, 5):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(1))
-        for num in range(6, 10):
+        for num in range(5, 10):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(2))
-        for num in range(11, 15):
+        for num in range(10, 15):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(3))
-        for num in range(16, 20):
+        for num in range(15, 20):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(4))
-        for num in range(21, 25):
+        for num in range(20, 25):
             khdddworld.set_rule(khdddworld.get_location("Riku Level " + f"{num:02d}"), has_x_riku_worlds(5))
-        for num in range(26, 99):
+        for num in range(25, 100):
             khdddworld.set_rule(khdddworld.get_location("Riku Level "+f"{num:02d}"), has_x_riku_worlds(6))
 
     ###############################
@@ -133,7 +136,7 @@ def set_rules(khdddworld):
             khdddworld.set_rule(khdddworld.get_location("La Cite des Cloches Secret Portal [Sora]"),
                     has_x_sora_worlds(6))
             khdddworld.set_rule(khdddworld.get_location("The Grid Secret Portal [Sora]"),
-                    has_x_sora_worlds(6))
+                    has_x_sora_worlds(6) & grid_access_sora())
             khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Secret Portal [Sora]"),
                     has_x_sora_worlds(6))
             khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Secret Portal [Sora]"),
@@ -145,9 +148,6 @@ def set_rules(khdddworld):
                          has_required_recipes(options.recipe_reqs.value)))
             khdddworld.set_rule(khdddworld.get_location("Unbound Keyblade Reward [Sora]"),
                     can_access_sora_portals())
-            if options.goal == 1: #All Superbosses defeated needs a rule here too
-                khdddworld.set_rule(khdddworld.get_location("All Superbosses Defeated [Sora] [Riku]"),
-                         can_access_sora_portals() & tt2_access_sora() & has_required_recipes(options.recipe_reqs.value))
 
 
         ###################################
@@ -255,21 +255,14 @@ def set_rules(khdddworld):
         ##############The Grid#############
         ###################################
         for name, data in location_data_table.items(): #Sora can only reach the first location without tools
-            if data.region == "The Grid [Sora]" and name != "The Grid City Potion [Sora]":
-
-                if name == "The Grid Secret Portal [Sora]":
-                    if not options.superbosses and options.goal != 1:
-                        continue
-
-                khdddworld.set_rule(khdddworld.get_location(name),
-                         (HasAny("Glide", "Superglide", "Rail Slide", "Flowmotion")
-                         | can_infinite_jump()))
+            if data.region == "The Grid [Sora]" and name not in ("The Grid City Potion [Sora]", "The Grid Secret Portal [Sora]"):
+                khdddworld.set_rule(khdddworld.get_location(name), grid_access_sora())
 
         khdddworld.set_rule(khdddworld.get_location("The Grid Throughput Dulcet Figment [Sora]"),
-                (HasAny("High Jump", "Rail Slide", "Flowmotion")
+                grid_access_sora() & (HasAny("High Jump", "Rail Slide", "Flowmotion")
                 | (can_infinite_jump()) | (can_pole_jump())))
         khdddworld.set_rule(khdddworld.get_location("The Grid City Troubling Fancy [Sora]"),
-                    (Has("Flowmotion")
+                    grid_access_sora() & (Has("Flowmotion")
                     | (can_infinite_jump()) | (HasAny("Glide", "Superglide"))))
 
         ###################################
@@ -305,27 +298,22 @@ def set_rules(khdddworld):
         ###################################
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Xemnas Bonus Slot 1 [Sora]"),
                  (can_infinite_jump() | (Has("High Jump")
-                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion"))))
+                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion")))
+                 & has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Glossary: Recusant's Sigil Reward [Sora]"),
                  (can_infinite_jump() | (Has("High Jump")
-                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion"))))
+                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion")))
+                 & has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Glossary: Hearts Tied to Sora Reward [Sora]"),
                  (can_infinite_jump() | (Has("High Jump")
-                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion"))))
+                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion")))
+                 & has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Contorted City Ice Dream Cone 3 [Sora]"),
                  (can_infinite_jump() | (Has("Flowmotion"))
                         | (Has("High Jump") & (HasAny("Air Slide", "Glide")))))
-
-        #####Add Macguffin Rules#####
-        khdddworld.set_rule(khdddworld.get_location("The World That Never Was Xemnas Bonus Slot 1 [Sora]"),
-                 has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
-        khdddworld.set_rule(khdddworld.get_location("The World That Never Was Glossary: Recusant's Sigil Reward [Sora]"),
-                 has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
-        khdddworld.set_rule(khdddworld.get_location("The World That Never Was Glossary: Hearts Tied to Sora Reward [Sora]"),
-                 has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
     ###############################
     #########RIKU RULES############
@@ -343,9 +331,6 @@ def set_rules(khdddworld):
             khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Secret Portal [Riku]"), has_x_riku_worlds(6))
             khdddworld.set_rule(khdddworld.get_location("Traverse Town 2 Ultima Weapon Reward [Riku]"), can_access_riku_portals() & (has_required_recipes(options.recipe_reqs.value)))
             khdddworld.set_rule(khdddworld.get_location("Unbound Keyblade Reward [Riku]"), can_access_riku_portals())
-            if options.goal == 1:
-                khdddworld.set_rule(khdddworld.get_location("All Superbosses Defeated [Sora] [Riku]"),
-                         can_access_riku_portals() & tt2_access_riku() & HasAllCounts({"Lucky Emblem": options.emblem_reqs.value}) & has_required_recipes(options.recipe_reqs.value))
 
         ###################################
         ###########Traverse Town###########
@@ -614,24 +599,26 @@ def set_rules(khdddworld):
                  HasAny("Flowmotion", "Rail Slide") & Has("Air Slide"))
 
         if options.goal == 0: #YX/AVN can only be played with Final Boss goal
+            #Require Rail Slide to reach the end since it is needed to start ABC
             if options.character == 0:
                 khdddworld.set_rule(khdddworld.get_location("The World That Never Was Young Xehanort Defeated [Riku]"),
-                    (CanReachLocation(khdddworld.get_location("The World That Never Was Xemnas Bonus Slot 1 [Sora]"))))
+                    CanReachLocation("The World That Never Was Xemnas Bonus Slot 1 [Sora]") & HasAny("Rail Slide", "Flowmotion"))
             elif options.character == 2:
                  khdddworld.set_rule(khdddworld.get_location("The World That Never Was Young Xehanort Defeated [Riku]"),
-             (HasAll("Meow Wow Recipe", "Komory Bat Recipe", "Recusant Sigil") & (HasAllCounts({"Lucky Emblem":options.emblem_reqs.value})) & (has_required_recipes(options.recipe_reqs.value))))
+             (HasAll("Meow Wow Recipe", "Komory Bat Recipe", "Recusant Sigil") & (HasAllCounts({"Lucky Emblem":options.emblem_reqs.value})) & (has_required_recipes(options.recipe_reqs.value)))
+             & HasAny("Rail Slide", "Flowmotion"))
 
             if options.armored_ventus_nightmare:
                 khdddworld.set_rule(khdddworld.get_location("Armored Ventus Nightmare Defeated [Riku]"),
-                    (CanReachLocation(khdddworld.get_location("The World That Never Was Young Xehanort Defeated [Riku]"))))
+                    CanReachLocation("The World That Never Was Young Xehanort Defeated [Riku]") & HasAny("Rail Slide", "Flowmotion"))
 
-            #Require Rail Slide to reach the end since it is needed to start ABC
-            khdddworld.set_rule(khdddworld.get_location("The World That Never Was Young Xehanort Defeated [Riku]"),
-                    HasAny("Rail Slide", "Flowmotion"))
-            if options.armored_ventus_nightmare:
-                khdddworld.set_rule(khdddworld.get_location("Armored Ventus Nightmare Defeated [Riku]"),
-                    HasAny("Rail Slide", "Flowmotion"))
-
+    if options.goal == 1: #All Superbosses defeated needs a rule here too
+        superbosses_rule = has_required_recipes(options.recipe_reqs.value)
+        if options.character == 0 or options.character == 1:
+            superbosses_rule &= can_access_sora_portals() & tt2_access_sora()
+        if options.character == 0 or options.character == 2:
+            superbosses_rule &= can_access_riku_portals() & tt2_access_riku() & HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})
+        khdddworld.set_rule(khdddworld.get_location("All Superbosses Defeated [Sora] [Riku]"), superbosses_rule)
 
     #Lord Kyroo Completion Access
     #if options.lord_kyroo:
