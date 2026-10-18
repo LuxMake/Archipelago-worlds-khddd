@@ -8,7 +8,6 @@ from .Options import KHDDDOptions
 from .Regions import region_data_table, create_regions
 from .Rules import set_rules, beat_x_sora_worlds, beat_x_riku_worlds
 from worlds.LauncherComponents import Component, components, Type, launch as launch_component, icon_paths
-import random
 
 from ..generic.Rules import add_item_rule, add_rule
 
@@ -57,7 +56,7 @@ class KHDDDWorld(World):
                 recipes.append(name)
 
         # Shuffle recipes and add to item pool based on reqs
-        random.shuffle(recipes)
+        self.random.shuffle(recipes)
         for x in range(recipe_count):
             #item_pool += [self.create_item(recipes[x])]
             self.recipes_in_pool.append(recipes[x])
@@ -222,11 +221,11 @@ class KHDDDWorld(World):
                 #Pad out with more stats TODO: Maybe replace with filler?
                 random_stat = 0
                 if self.options.character == 0:
-                    random_stat = random.randint(0, 5)
+                    random_stat = self.random.randint(0, 5)
                 elif self.options.character == 1:
-                    random_stat = random.randint(0, 2)
+                    random_stat = self.random.randint(0, 2)
                 elif self.options.character == 2:
-                    random_stat = random.randint(3, 5)
+                    random_stat = self.random.randint(3, 5)
                 possible_level_up_item_pool.append(filler_stat_names[random_stat])
 
             self.random.shuffle(possible_level_up_item_pool)
