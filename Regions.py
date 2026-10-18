@@ -84,7 +84,7 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
             continue
 
         #Skip Lord Kyroo if disabled
-        if name.find("Lord Kyroo") > -1 and not options.lord_kyroo:
+        if name.find("Lord Kyroo") > -1 and data.category != "Board" and not options.lord_kyroo:
             continue
 
         #Skip Levels if Vanilla Stats are enabled
