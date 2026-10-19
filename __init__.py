@@ -391,7 +391,7 @@ class KHDDDWorld(World):
             else:
                 end_node = gated_nodes[0]
 
-        for x in range(gated_nodes[gateNum], end_node-1):
+        for x in range(gated_nodes[gateNum], end_node):
             node_num = f"{(x+1):02d}"
             loc_name = spiritName+" Node "+node_num
             if character == 1:
