@@ -333,6 +333,8 @@ class KHDDDWorld(World):
                     if location_data.category not in remote_locations: #Make sure game can award local item in this spot
                         if location.name == "The Grid Light Cycle Bonus Slot [Riku]" and self.options.skip_light_cycle: #This location cannot be local if the minigame is skipped
                             continue
+                        if location.item.name == "Lucky Emblem" and location_data.category == "Board": #Lucky Emblems cannot be properly redeemed from boards
+                            continue
                         non_remote_ids.append([location_data.code, item_data.code])
         return non_remote_ids
 
