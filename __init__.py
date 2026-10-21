@@ -315,7 +315,7 @@ class KHDDDWorld(World):
 
         slot_data["emblem_reqs"] = self.convert_required_emblems()
 
-        slot_data["gate_reqs"] = str(self.gate_requirements)
+        slot_data["gate_reqs"] = str(self.gate_requirements) #Structured as so: [[spiritid, characterid, worldCount1, worldCount2]
 
         return slot_data
 

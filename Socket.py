@@ -1,3 +1,4 @@
+import json
 from enum import IntEnum
 import asyncio
 from re import S
@@ -55,6 +56,7 @@ class SlotDataType(IntEnum):
     non_remote_ids = 12
     use_vanilla_levels = 13
     emblem_reqs = 14
+    gate_reqs = 15
 
 class KHDDDSocket():
     @property
@@ -341,6 +343,15 @@ class KHDDDSocket():
             if len(sendVal) > 1:
                 self.send(MessageType.SendSlotData, sendVal)
             self.client.dddPatched = True
+
+        elif slotType == SlotDataType.gate_reqs:
+            gateData = json.loads(data)
+
+            for x in gateData:
+                sendVal = [str(slotType)]
+                for y in x:
+                    sendVal.append(y)
+                self.send(MessageType.SendSlotData, sendVal)
         else:
             self.send(MessageType.SendSlotData, [str(slotType), str(data)])
 
