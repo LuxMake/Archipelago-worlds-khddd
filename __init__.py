@@ -325,7 +325,7 @@ class KHDDDWorld(World):
 
         slot_data["emblem_reqs"] = self.convert_required_emblems()
 
-        slot_data["gate_reqs"] = str(self.gate_requirements)
+        slot_data["gate_reqs"] = str(self.gate_requirements) #Structured as so: [[spiritid, characterid, worldCount1, worldCount2]
 
         return slot_data
 
@@ -342,6 +342,8 @@ class KHDDDWorld(World):
                     #This is a local item
                     if location_data.category not in remote_locations: #Make sure game can award local item in this spot
                         if location.name == "The Grid Light Cycle Bonus Slot [Riku]" and self.options.skip_light_cycle: #This location cannot be local if the minigame is skipped
+                            continue
+                        if location.item.name == "Lucky Emblem" and location_data.category == "Board": #Lucky Emblems cannot be properly redeemed from boards
                             continue
                         non_remote_ids.append([location_data.code, item_data.code])
         return non_remote_ids
@@ -399,7 +401,7 @@ class KHDDDWorld(World):
             else:
                 end_node = gated_nodes[0]
 
-        for x in range(gated_nodes[gateNum], end_node-1):
+        for x in range(gated_nodes[gateNum], end_node):
             node_num = f"{(x+1):02d}"
             loc_name = spiritName+" Node "+node_num
             #Combined with the node's recipe rule in set_rules

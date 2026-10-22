@@ -621,6 +621,7 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("All Superbosses Defeated [Sora] [Riku]"), superbosses_rule)
 
     #Lord Kyroo Completion Access
+    ##TODO: Access here seems broken. Test on solo sora yaml
     #if options.lord_kyroo:
     #    if options.character == 0 or options.character == 1:
     #        khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
@@ -632,15 +633,15 @@ def set_rules(khdddworld):
     #                 CanReachLocation(khdddworld.get_location("Symphony of Sorcery Moonlight Wood Lord Kyroo Fight [Riku]")))
 
     #Region rules
-    #if options.character == 0:
-    #    khdddworld.set_rule(khdddworld.get_entrance("Levels"),
-    #             has_x_sora_worlds(1) | (has_x_riku_worlds(1)))
-    #elif options.character == 1:
-    #    khdddworld.set_rule(khdddworld.get_entrance("Levels"),
-    #             has_x_sora_worlds(1))
-    #elif options.character == 2:
-    #    khdddworld.set_rule(khdddworld.get_entrance("Levels"),
-    #             has_x_riku_worlds(1))
+    if options.character == 0:
+        khdddworld.set_rule(khdddworld.get_entrance("Levels"),
+                 has_x_sora_worlds(1) | (has_x_riku_worlds(1)))
+    elif options.character == 1:
+        khdddworld.set_rule(khdddworld.get_entrance("Levels"),
+                 has_x_sora_worlds(1))
+    elif options.character == 2:
+        khdddworld.set_rule(khdddworld.get_entrance("Levels"),
+                 has_x_riku_worlds(1))
 
     khdddworld.set_rule(khdddworld.get_entrance("Traverse Town [Sora]"),
              Has("Traverse Town [Sora]"))
