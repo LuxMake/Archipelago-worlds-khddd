@@ -226,6 +226,9 @@ class KHDDDContext(CommonContext):
             Utils.async_start(async_get_items(self), name="KHDDDGetItems")
 
     def hint_boards(self, spiritID:int=0):
+        # Seeds without the key predate the option and always have board checks
+        if not self.slot_data_info.get("link_board_sanity", 1):
+            return
         print(f"spiritID {spiritID}: type {type(spiritID)}")
         spiritName = get_spirit_by_id(spiritID)
         print("Spirit Name: "+spiritName)
@@ -272,14 +275,13 @@ class KHDDDContext(CommonContext):
 
     async def send_slot_data(self):
         while not self.exit_event.is_set():
-            if not self.connectedToDDD or self._get_items_running:
-                await asyncio.sleep(5)
-                continue
-            elif self.slot_data_info:
+            # Must not wait on get_items; slot data goes out before the item resync
+            if self.connectedToDDD and self.slot_data_info:
                 for key, value in self.slot_data_info.items():
                     if key in SlotDataType.__members__.keys():
                         self.socket.send_slot_data(SlotDataType[key], str(value))
                 break
+            await asyncio.sleep(5)
 
 
 async def game_watcher(ctx: KHDDDContext):

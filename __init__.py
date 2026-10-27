@@ -8,7 +8,6 @@ from .Options import KHDDDOptions
 from .Regions import region_data_table, create_regions
 from .Rules import set_rules, beat_x_sora_worlds, beat_x_riku_worlds
 from worlds.LauncherComponents import Component, components, Type, launch as launch_component, icon_paths
-import random
 
 from ..generic.Rules import add_item_rule, add_rule
 
@@ -34,6 +33,7 @@ class KHDDDWorld(World):
 
     ids_for_gates = []
     gate_requirements = []
+    gate_rules = {}
     recipes_in_pool = []
 
     def create_item(self, name: str) -> KHDDDItem:
@@ -43,6 +43,7 @@ class KHDDDWorld(World):
         super(KHDDDWorld, self).__init__(multiworld, player)
         self.ids_for_gates = []
         self.gate_requirements = []
+        self.gate_rules = {}
         self.recipes_in_pool = []
 
 
@@ -57,7 +58,7 @@ class KHDDDWorld(World):
                 recipes.append(name)
 
         # Shuffle recipes and add to item pool based on reqs
-        random.shuffle(recipes)
+        self.random.shuffle(recipes)
         for x in range(recipe_count):
             #item_pool += [self.create_item(recipes[x])]
             self.recipes_in_pool.append(recipes[x])
@@ -73,6 +74,7 @@ class KHDDDWorld(World):
 
     def create_items(self) -> None:
         self.place_predetermined_items()
+        self.place_board_filler()
         self.place_starting_items()
         starting_worlds = self.determine_starting_worlds()
 
@@ -222,11 +224,11 @@ class KHDDDWorld(World):
                 #Pad out with more stats TODO: Maybe replace with filler?
                 random_stat = 0
                 if self.options.character == 0:
-                    random_stat = random.randint(0, 5)
+                    random_stat = self.random.randint(0, 5)
                 elif self.options.character == 1:
-                    random_stat = random.randint(0, 2)
+                    random_stat = self.random.randint(0, 2)
                 elif self.options.character == 2:
-                    random_stat = random.randint(3, 5)
+                    random_stat = self.random.randint(3, 5)
                 possible_level_up_item_pool.append(filler_stat_names[random_stat])
 
             self.random.shuffle(possible_level_up_item_pool)
@@ -259,6 +261,13 @@ class KHDDDWorld(World):
                 self.get_location("The World That Never Was Xemnas Bonus Slot 1 [Sora]").place_locked_item(self.create_item("Victory"))
         else: #Lucky emblem hunt
             self.get_location("All Lucky Emblems Found [Sora] [Riku]").place_locked_item(self.create_item("Victory"))
+
+    def place_board_filler(self) -> None:
+        if self.options.link_board_sanity:
+            return
+        for location in self.multiworld.get_unfilled_locations(self.player):
+            if location_data_table[location.name].category == "Board":
+                location.place_locked_item(self.create_item(self.get_filler_item_name()))
 
     def create_regions(self) -> None:
         create_regions(self.multiworld, self.player, self.options, self)
@@ -305,6 +314,7 @@ class KHDDDWorld(World):
         slot_data["win_con"] = int(self.options.goal.value)
 
         slot_data["lord_kyroo"] = str(self.options.lord_kyroo.value)
+        slot_data["link_board_sanity"] = int(self.options.link_board_sanity.value)
         slot_data["local_item_notifs"] = str(self.options.received_notifications.value)
         slot_data["remote_item_notifs"] = str(self.options.sent_notifications.value)
 
@@ -394,10 +404,11 @@ class KHDDDWorld(World):
         for x in range(gated_nodes[gateNum], end_node):
             node_num = f"{(x+1):02d}"
             loc_name = spiritName+" Node "+node_num
+            #Combined with the node's recipe rule in set_rules
             if character == 1:
-                self.set_rule(self.get_location(loc_name), beat_x_sora_worlds(worldReq))
+                self.gate_rules[loc_name] = beat_x_sora_worlds(worldReq)
             else:
-                self.set_rule(self.get_location(loc_name), beat_x_riku_worlds(worldReq))
+                self.gate_rules[loc_name] = beat_x_riku_worlds(worldReq)
 
     def using_vanilla_stats(self):
         is_vanilla = 0
