@@ -281,12 +281,22 @@ def set_rules(khdddworld):
                  can_infinite_jump() | (Has("High Jump") & can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Circus Rampant Fancy [Sora]"),
                  can_infinite_jump() | (Has("High Jump") & can_pole_jump()))
+        khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Amusement Park Blizzara [Sora]"),
+                            can_infinite_jump() | HasAll("Superjump", "Rail Slide") | HasAny("Flowmotion", "Glide", "Superglide"))
+        khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Promontory Water Barrel [Sora]"),
+                            can_infinite_jump() | (HasAny("Glide", "Superglide")))
 
         ###################################
         #####Country of the Musketeers#####
         ###################################
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Mont Saint-Michel Sparkga [Sora]"),
                  (can_infinite_jump() | (HasAny("High Jump", "Flowmotion"))))
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Mont Saint-Michel Fleeting Fantasy [Sora]"),
+                            can_infinite_jump() | (HasAny("Glide", "Superglide")))
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Dungeon Sonic Blade [Sora]"),
+                            can_infinite_jump() | (HasAny("Glide", "Superglide")))
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Ice Dream Cone 3 [Sora]"),
+                           can_infinite_jump() | (HasAny("Glide", "Superglide", "Wall Kick", "Rail Slide", "Flowmotion")))
 
         ###################################
         ########Symphony of Sorcery########
@@ -422,6 +432,8 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Shadowbreaker [Riku]"),
                  HasAny("Pole Spin", "Flowmotion")
                         & (HasAny("High Jump", "Double Flight") | can_infinite_jump()))
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Royal Cake [Riku]"),
+                            can_infinite_jump() | (HasAny("Double Flight", "Wall Kick", "Rail Slide", "Flowmotion")))
 
         #####Green Room#####
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Candy Goggles [Riku]"),
