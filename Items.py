@@ -44,7 +44,16 @@ item_data_table: Dict[str, KHDDDItemData] = {
         code=264_1001,
         type=ItemClassification.filler
     ),
-
+    "Worlds Beaten [Sora]": KHDDDItemData(
+        category="Event",
+        code=None,
+        type=ItemClassification.progression
+    ),
+    "Worlds Beaten [Riku]": KHDDDItemData(
+        category="Event",
+        code=None,
+        type=ItemClassification.progression
+    ),
     "Victory": KHDDDItemData(
         category="Goal",
         code=263_9999,

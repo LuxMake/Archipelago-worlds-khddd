@@ -5,7 +5,13 @@ import asyncio
 from datetime import datetime, timedelta
 from typing import Dict
 
+from kvui import GameManager
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+
 import ModuleUpdate
+from worlds.khddd.Client_GUI import KHDDDManager
+
 ModuleUpdate.update()
 
 import Utils
@@ -196,13 +202,6 @@ class KHDDDContext(CommonContext):
 
     def run_gui(self):
         """Import kivy UI system and start running it as self.ui_task"""
-        from kvui import GameManager
-
-        class KHDDDManager(GameManager):
-            logging_pairs = [
-                ("Client", "Archipelago")
-            ]
-            base_title = "Archipelago KHDDD Client"
 
         self.ui = KHDDDManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -325,6 +324,7 @@ def launch():
     async def main(args):
         ctx = KHDDDContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+
         if gui_enabled:
             ctx.run_gui()
         ctx.run_cli()
