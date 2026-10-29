@@ -11,7 +11,7 @@ class KHDDDLocation(Location):
 
 class KHDDDLocationData(NamedTuple):
     region: str
-    code: int
+    code: Optional[int]
     category: str = "Chest"
 
 def get_locations_by_region(region: str) -> Dict[str, KHDDDLocationData]:
@@ -3521,6 +3521,25 @@ location_data_table: Dict[str, KHDDDLocationData] = {
     "Riku Level 97": KHDDDLocationData(region="Levels", code=2660197, category="Slot"),
     "Riku Level 98": KHDDDLocationData(region="Levels", code=2660198, category="Slot"),
     "Riku Level 99": KHDDDLocationData(region="Levels", code=2660199, category="Slot"),
+
+    #Event Locations
+    "Traverse Town Cleared [Sora]": KHDDDLocationData(region="Traverse Town [Sora]", code=None, category="Event"),
+    "La Cite des Cloches Cleared [Sora]": KHDDDLocationData(region="La Cite des Cloches [Sora]", code=None, category="Event"),
+    "The Grid Cleared [Sora]": KHDDDLocationData(region="The Grid [Sora]", code=None, category="Event"),
+    "Prankster's Paradise Cleared [Sora]": KHDDDLocationData(region="Prankster's Paradise [Sora]", code=None, category="Event"),
+    "Country of the Musketeers Cleared [Sora]": KHDDDLocationData(region="Country of the Musketeers [Sora]", code=None, category="Event"),
+    "Symphony of Sorcery Cleared [Sora]": KHDDDLocationData(region="Symphony of Sorcery [Sora]", code=None, category="Event"),
+    "Traverse Town 2 Cleared [Sora]": KHDDDLocationData(region="Traverse Town 2 [Sora]", code=None, category="Event"),
+    "The World That Never Was Cleared [Sora]": KHDDDLocationData(region="The World That Never Was [Sora]", code=None, category="Event"),
+
+    "Traverse Town Cleared [Riku]": KHDDDLocationData(region="Traverse Town [Riku]", code=None, category="Event"),
+    "La Cite des Cloches Cleared [Riku]": KHDDDLocationData(region="La Cite des Cloches [Riku]", code=None, category="Event"),
+    "The Grid Cleared [Riku]": KHDDDLocationData(region="The Grid [Riku]", code=None, category="Event"),
+    "Prankster's Paradise Cleared [Riku]": KHDDDLocationData(region="Prankster's Paradise [Riku]", code=None, category="Event"),
+    "Country of the Musketeers Cleared [Riku]": KHDDDLocationData(region="Country of the Musketeers [Riku]", code=None, category="Event"),
+    "Symphony of Sorcery Cleared [Riku]": KHDDDLocationData(region="Symphony of Sorcery [Riku]", code=None, category="Event"),
+    "Traverse Town 2 Cleared [Riku]": KHDDDLocationData(region="Traverse Town 2 [Riku]", code=None, category="Event"),
+    "The World That Never Was Cleared [Riku]": KHDDDLocationData(region="The World That Never Was [Riku]", code=None, category="Event"),
 }
 
 event_location_table: Dict[str, KHDDDLocationData] = {}
@@ -3528,7 +3547,11 @@ location_table = {name: data.code for name, data in location_data_table.items() 
 
 lookup_id_to_name: typing.Dict[int, str] = {data.code: name for name, data in location_data_table.items() if data.code}
 
-location_name_groups: Dict[str, Set[str]] = { #TODO: Streamline this
+location_name_groups: Dict[str, Set[str]] = {
+    "Sora Worlds": {"Traverse Town Cleared [Sora]", "La Cite des Cloches Cleared [Sora]", "The Grid Cleared [Sora]", "Prankster's Paradise Cleared [Sora]",
+                    "Country of the Musketeers Cleared [Sora]", "Symphony of Sorcery Cleared [Sora]", "Traverse Town 2 Cleared [Sora]", "The World That Never Was Cleared [Sora]"},
+    "Riku Worlds": {"Traverse Town Cleared [Riku]","La Cite des Cloches Cleared [Riku]","The Grid Cleared [Riku]","Prankster's Paradise Cleared [Riku]",
+                    "Country of the Musketeers Cleared [Riku]","Symphony of Sorcery Cleared [Riku]","Traverse Town 2 Cleared [Riku]","The World That Never Was Cleared [Riku]"},
     "Meow Wow Ability Link": {"Meow Wow Node 01", "Meow Wow Node 02", "Meow Wow Node 03", "Meow Wow Node 04", "Meow Wow Node 05", "Meow Wow Node 06", "Meow Wow Node 07", "Meow Wow Node 08",
                               "Meow Wow Node 09", "Meow Wow Node 10", "Meow Wow Node 11", "Meow Wow Node 12", "Meow Wow Node 13", "Meow Wow Node 14", "Meow Wow Node 15", "Meow Wow Node 16"},
     "Tama Sheep Ability Link": {"Tama Sheep Node 01", "Tama Sheep Node 02", "Tama Sheep Node 03", "Tama Sheep Node 04", "Tama Sheep Node 05", "Tama Sheep Node 06", "Tama Sheep Node 07", "Tama Sheep Node 08",

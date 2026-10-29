@@ -248,6 +248,16 @@ class KHDDDWorld(World):
         return item_pool
 
     def place_predetermined_items(self) -> None:
+
+        #Place world cleared items
+        if self.options.character == 0 or self.options.character == 2:
+            for x in location_name_groups["Riku Worlds"]:
+                self.get_location(x).place_locked_item(self.create_item("Worlds Beaten [Riku]"))
+        if self.options.character == 0 or self.options.character == 1:
+            for x in location_name_groups["Sora Worlds"]:
+                self.get_location(x).place_locked_item(self.create_item("Worlds Beaten [Sora]"))
+
+        #Place goal item
         if self.options.goal == 1: #Place Superboss Goal Item
             self.get_location("All Superbosses Defeated [Sora] [Riku]").place_locked_item(self.create_item("Victory"))
         elif self.options.goal == 0:
@@ -331,7 +341,7 @@ class KHDDDWorld(World):
 
     def get_non_remote_ids(self):
         non_remote_ids = []
-        remote_categories = ["Trap", "Item"]
+        remote_categories = ["Trap", "Event"]
         remote_locations = ["Bonus"]
 
         for location in self.multiworld.get_filled_locations(self.player):

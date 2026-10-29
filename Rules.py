@@ -15,13 +15,6 @@ if TYPE_CHECKING:
 SORA_WORLDS = ["Traverse Town [Sora]", "La Cite des Cloches [Sora]", "The Grid [Sora]", "Prankster's Paradise [Sora]", "Country of the Musketeers [Sora]", "Symphony of Sorcery [Sora]"]
 RIKU_WORLDS = ["Traverse Town [Riku]", "La Cite des Cloches [Riku]", "The Grid [Riku]", "Prankster's Paradise [Riku]", "Country of the Musketeers [Riku]", "Symphony of Sorcery [Riku]"]
 
-SORA_COMPLETION_LOCS = ["Traverse Town Skull Noise Reward [Sora]", "La Cite des Cloches Guardian Bell Reward [Sora]", "The Grid Dual Disc Reward [Sora]",
-                        "Prankster's Paradise Ferris Gear Reward [Sora]", "Country of the Musketeers All For One Reward [Sora]", "Symphony of Sorcery Counterpoint Reward [Sora]",
-                        "The World That Never Was Xemnas Bonus Slot 1 [Sora]"]
-RIKU_COMPLETION_LOCS = ["Traverse Town Skull Noise Reward [Riku]", "La Cite des Cloches Guardian Bell Reward [Riku]", "The Grid Dual Disc Reward [Riku]",
-                        "Prankster's Paradise Ocean's Rage Reward [Riku]", "Country of the Musketeers All For One Reward [Riku]", "Symphony of Sorcery Counterpoint Reward [Riku]",
-                        "The World That Never Was Ansem II Defeated [Riku]"]
-
 
 def has_x_sora_worlds(num_of_worlds: int) -> Rule[Any]:
     return HasFromListUnique(*SORA_WORLDS, count=num_of_worlds)
@@ -30,14 +23,10 @@ def has_x_riku_worlds(num_of_worlds: int) -> Rule[Any]:
     return HasFromListUnique(*RIKU_WORLDS, count=num_of_worlds)
 
 def beat_x_sora_worlds(num_of_worlds: int) -> Rule[Any]:
-    return AtLeast(num_of_worlds, CanReachLocation("Traverse Town Skull Noise Reward [Sora]"), CanReachLocation("La Cite des Cloches Guardian Bell Reward [Sora]"),
-                   CanReachLocation("The Grid Dual Disc Reward [Sora]"), CanReachLocation("Prankster's Paradise Ferris Gear Reward [Sora]"), CanReachLocation("Country of the Musketeers All For One Reward [Sora]"),
-                   CanReachLocation("Symphony of Sorcery Counterpoint Reward [Sora]"), CanReachLocation("The World That Never Was Xemnas Bonus Slot 1 [Sora]"))
+    return HasAllCounts({"Worlds Beaten [Sora]": num_of_worlds})
 
 def beat_x_riku_worlds(num_of_worlds: int) -> Rule[Any]:
-    return AtLeast(num_of_worlds, CanReachLocation("Traverse Town Skull Noise Reward [Riku]"), CanReachLocation("La Cite des Cloches Guardian Bell Reward [Riku]"),
-                   CanReachLocation("The Grid Dual Disc Reward [Riku]"), CanReachLocation("Prankster's Paradise Ocean's Rage Reward [Riku]"), CanReachLocation("Country of the Musketeers All For One Reward [Riku]"),
-                   CanReachLocation("Symphony of Sorcery Counterpoint Reward [Riku]"), CanReachLocation("The World That Never Was Ansem II Defeated [Riku]"))
+    return HasAllCounts({"Worlds Beaten [Riku]": num_of_worlds})
 
 def tt2_access_sora() -> Rule[Any]:
     return HasAllCounts({"Traverse Town [Sora]" : 2})
@@ -82,11 +71,12 @@ def set_rules(khdddworld):
 
     #Make all Link Board nodes require base recipe
     for name, data in location_name_groups.items():
-        spirit_name = name[:-13] #Trim " Ability Link"
+        if "Ability Link" in name:
+            spirit_name = name[:-13] #Trim " Ability Link"
 
-        if SPIRITLIST[spirit_name] in khdddworld.ids_for_gates: #Only add rule for recipes in the pool
-            for nodes in data:
-                khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & khdddworld.gate_rules.get(nodes, True_()))
+            if SPIRITLIST[spirit_name] in khdddworld.ids_for_gates: #Only add rule for recipes in the pool
+                for nodes in data:
+                    khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & khdddworld.gate_rules.get(nodes, True_()))
 
 
     #Ensure the player is not expected to level grind much for checks
@@ -241,6 +231,9 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Skull Noise Reward [Sora]"),
                  HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
 
+        khdddworld.set_rule(khdddworld.get_location("Traverse Town Cleared [Sora]"),
+                            HasAny( "Rail Slide", "Flowmotion") | can_infinite_jump() | can_glide())
+
         ###################################
         ########La Cite des Cloches########
         ###################################
@@ -277,7 +270,7 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Amusement Park Blizzara [Sora]"),
                             can_infinite_jump() | HasAll("Superjump", "Rail Slide") | HasAny("Flowmotion", "Glide", "Superglide"))
         khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Promontory Water Barrel [Sora]"),
-                            can_infinite_jump() | (HasAny("Glide", "Superglide")))
+                            can_infinite_jump() | can_glide())
 
         ###################################
         #####Country of the Musketeers#####
@@ -324,6 +317,9 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Contorted City Ice Dream Cone 3 [Sora]"),
                  (can_infinite_jump() | (Has("Flowmotion"))
                         | (Has("High Jump") & (HasAny("Air Slide", "Glide")))))
+
+        khdddworld.set_rule(khdddworld.get_location("The World That Never Was Cleared [Sora]"),
+                            CanReachLocation("The World That Never Was Xemnas Bonus Slot 1 [Sora]"))
 
     ###############################
     #########RIKU RULES############
@@ -385,6 +381,9 @@ def set_rules(khdddworld):
                  Has("Air Slide"))
         khdddworld.set_rule(khdddworld.get_location("La Cite des Cloches Guardian Bell Reward [Riku]"),
                  Has("Air Slide"))
+
+        khdddworld.set_rule(khdddworld.get_location("La Cite des Cloches Cleared [Riku]"),
+                            Has("Air Slide"))
 
         ###################################
         ##############The Grid#############
@@ -506,6 +505,9 @@ def set_rules(khdddworld):
                             HasAny("Pole Spin", "Flowmotion")
                             & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
 
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Cleared [Riku]"),
+                            HasAny("Pole Spin", "Flowmotion") & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
+
         ###################################
         ########Symphony of Sorcery########
         ###################################
@@ -567,6 +569,11 @@ def set_rules(khdddworld):
                  HasAny("Flowmotion", "Rail Slide")
                  & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
 
+        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Cleared [Riku]"),
+                            HasAny("Flowmotion", "Rail Slide")
+                            & (HasAny("High Jump", "Double Flight",
+                                      "Flowmotion") | can_infinite_jump() | can_pole_jump()))
+
         ###################################
         #####The World That Never Was######
         ###################################
@@ -609,6 +616,9 @@ def set_rules(khdddworld):
                  HasAny("Flowmotion", "Rail Slide") & Has("Air Slide"))
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Anti Black Coat Nightmare Defeated [Riku]"),
                  HasAny("Flowmotion", "Rail Slide") & Has("Air Slide"))
+
+        khdddworld.set_rule(khdddworld.get_location("The World That Never Was Cleared [Riku]"), #Triggers after defeating Ansem II instead of YX
+                        HasAny("Flowmotion", "Rail Slide") & Has("Air Slide"))
 
         if options.goal == 0: #YX/AVN can only be played with Final Boss goal
             #Require Rail Slide to reach the end since it is needed to start ABC
