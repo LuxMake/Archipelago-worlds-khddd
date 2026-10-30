@@ -1,6 +1,7 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, ClassVar, Optional
 
 from BaseClasses import Region, Entrance, Tutorial, ItemClassification
+from Options import Option
 from worlds.AutoWorld import World
 from .Items import KHDDDItem, item_data_table, item_table, item_name_groups, get_items_by_category, get_items_by_character_category, SPIRITLIST, get_spirit_by_id
 from .Locations import KHDDDLocation, location_data_table, location_name_groups, location_table, event_location_table, get_locations_by_region, gate_thresholds
@@ -11,6 +12,8 @@ from worlds.LauncherComponents import Component, components, Type, launch as lau
 
 from ..generic.Rules import add_item_rule, add_rule
 
+from settings import Group, FilePath
+
 
 def launch_client():
     from .Client import launch
@@ -18,6 +21,13 @@ def launch_client():
 
 components.append(Component("KHDDD Client", "KHDDD Client", func=launch_client, component_type=Type.CLIENT, icon="kh3d_icon"))
 icon_paths["kh3d_icon"] = f"ap:{__name__}/icons/kh3d_icon.png"
+
+class KHDDDSettings(Group):
+    class UTPoptrackerPath(FilePath):
+        """Path to the user's KHDDD Poptracker Pack zip file"""
+        description = "KHDDD Poptracker Pack zip file"
+        required = False
+    ut_poptracker_pack: UTPoptrackerPath | str = UTPoptrackerPath()
 
 class KHDDDWorld(World):
     """KHDDD is a cool KH game"""
@@ -31,6 +41,19 @@ class KHDDDWorld(World):
     location_name_groups = location_name_groups
     origin_region_name = "World"
 
+    #UT
+    settings: ClassVar[KHDDDSettings]
+    tracker_worlds: ClassVar = {
+        "external_pack_key" : "ut_poptracker_path"
+    }
+    ut_can_gen_without_yaml = True
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        #Trigger a regen in UT
+        return slot_data
+
+    #Containers needed for gen
     ids_for_gates = []
     gate_requirements = []
     gate_rules = {}
@@ -48,6 +71,19 @@ class KHDDDWorld(World):
 
 
     def generate_early(self): #Need to determine recipes before regions are created
+        #Start UT yamlless support
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            #Get the passed through slot data from the real generation
+            slot_data: dict[str, Any] = re_gen_passthrough[self.game]
+            slot_options: dict[str, Any] = slot_data.get("options", {})
+
+            #Set all options here instead of getting them from yaml
+            for key,value in slot_options.items():
+                opt: Optional[Option] = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
+
         # Add recipes to the item pool
         self.recipes_in_pool = []
 

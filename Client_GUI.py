@@ -8,6 +8,8 @@ class KHDDDManager(GameManager):
     ]
     base_title = "Archipelago KHDDD Client"
 
+
+
     def build(self):
         layout = super().build()
         return layout
