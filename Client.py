@@ -25,14 +25,27 @@ if __name__ == "__main__":
     Utils.init_logging("KHDDDClient", exception_logger="Client")
 
 from NetUtils import NetworkItem, ClientStatus
-from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, \
-    CommonContext, server_loop
+
+from CommonClient import (
+    CommonContext,
+    get_base_parser,
+    logger,
+    server_loop,
+    gui_enabled
+)
+
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext, TrackerCommandProcessor
+    tracker_loaded = True
+except ModuleNotFoundError:
+    from CommonClient import ClientCommandProcessor
 
 def check_stdin() -> None:
     if Utils.is_windows and sys.stdin:
         print("WARNING: Console input is not routed reliably on Windows, use the GUI instead.")
 #Does submodule work
-class KHDDDClientCommandProcessor(ClientCommandProcessor):
+class KHDDDClientCommandProcessor(TrackerCommandProcessor):
 
     def __init__(self, ctx):
         super().__init__(ctx)
@@ -60,9 +73,10 @@ class KHDDDClientCommandProcessor(ClientCommandProcessor):
             if key not in ["keyblade_stats", "non_remote_ids"]: ##TODO: Prevent slot data from being printed
                 self.output(str(key)+": "+str(self.ctx.slot_data_info[key]))
 
-class KHDDDContext(CommonContext):
+class KHDDDContext(TrackerGameContext):
     command_processor: int = KHDDDClientCommandProcessor
     game = "Kingdom Hearts Dream Drop Distance"
+    tags = {"AP"}
     items_handling = 0b111 #Attempt full remote
     death_link: bool = False
 
@@ -85,6 +99,13 @@ class KHDDDContext(CommonContext):
         #Socket
         self.socket = KHDDDSocket(self)
         asyncio.create_task(self.socket.start_server(), name="KHDDDSocketServer")
+
+    def make_gui(self):
+        ui = super().make_gui()
+        ui.base_title = "Archipelago KHDDD Client"
+        if tracker_loaded:
+            ui.base_title += f" | UT"
+        return ui
 
     async def server_auth(self, password_requested:bool = False):
         if password_requested and not self.password:
@@ -124,6 +145,8 @@ class KHDDDContext(CommonContext):
         self.socket.shutdown_server()
     
     def on_package(self, cmd: str, args: dict):
+        super().on_package(cmd, args)
+
         if cmd in {"Connected"}:
             self.connectedToAp = True
             self.slot_data_info = args['slot_data']
@@ -200,11 +223,11 @@ class KHDDDContext(CommonContext):
         #Send to the game
         self.socket.send(8, [str(int(data["time"]))])
 
-    def run_gui(self):
-        """Import kivy UI system and start running it as self.ui_task"""
+    #def run_gui(self):
+    #    """Import kivy UI system and start running it as self.ui_task"""
 
-        self.ui = KHDDDManager(self)
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+    #    self.ui = KHDDDManager(self)
+    #    self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
     def get_items(self):
         """Send all received items to the game client. This can't be async 
@@ -327,6 +350,9 @@ def launch():
 
         if gui_enabled:
             ctx.run_gui()
+        if tracker_loaded:
+            ctx.run_generator()
+
         ctx.run_cli()
         progression_watcher = asyncio.create_task(
             game_watcher(ctx), name="KHDDDProgressionWatcher")
