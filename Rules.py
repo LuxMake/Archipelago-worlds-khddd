@@ -644,15 +644,15 @@ def set_rules(khdddworld):
 
     #Lord Kyroo Completion Access
     ##TODO: Access here seems broken. Test on solo sora yaml
-    #if options.lord_kyroo:
-    #    if options.character == 0 or options.character == 1:
-    #        khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
-    #                 CanReachLocation(khdddworld.get_location("Prankster's Paradise Promontory Lord Kyroo Fight [Sora]")))
-    #    elif options.character == 0 or options.character == 2:
-    #        khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
-    #                 CanReachLocation(khdddworld.get_location("La Cite des Cloches Nave Lord Kyroo Fight [Riku]")))
-    #        khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
-    #                 CanReachLocation(khdddworld.get_location("Symphony of Sorcery Moonlight Wood Lord Kyroo Fight [Riku]")))
+    if options.lord_kyroo:
+        if options.character == 0 or options.character == 1:
+            khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
+                                Has("Prankster's Paradise [Sora]"))
+        elif options.character == 0 or options.character == 2:
+            khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
+                                Has("La Cite des Cloches [Riku]"))
+            khdddworld.set_rule(khdddworld.get_location("Lord Kyroo Defeated [Sora] [Riku]"),
+                                Has("Symphony of Sorcery [Riku]") & (HasAny("High Jump", "Double Flight") | can_infinite_jump() | can_pole_jump()))
 
     #Region rules
     if options.character == 0:
