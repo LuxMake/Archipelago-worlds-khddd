@@ -75,10 +75,6 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
         if name.find("Lucky Emblems") > -1 and options.emblem_reqs == 0 and options.goal != 2:
             continue
 
-        # Skip all emblems found location if no emblems are in the pool
-        if name.find("Lucky Emblems") > -1 and options.emblem_reqs == 0 and options.goal != 2:
-            continue
-
         # Skip YX if goal is not final boss
         if name.find("Young Xehanort Defeated") > -1 and options.goal == 1:
             continue
