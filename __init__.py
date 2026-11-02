@@ -373,6 +373,8 @@ class KHDDDWorld(World):
 
         slot_data["gate_reqs"] = str(self.gate_requirements) #Structured as so: [[spiritid, characterid, worldCount1, worldCount2]
 
+        slot_data["drop_gage"] = int(self.options.enable_drop_gage.value)
+
         return slot_data
 
     def get_non_remote_ids(self):
@@ -440,7 +442,7 @@ class KHDDDWorld(World):
             if gated_nodes[gateNum] == larger_gate:
                 go_to_end = True
 
-        end_node = 15
+        end_node = 16
         if not go_to_end:
             if gateNum == 0:
                 end_node = gated_nodes[1]

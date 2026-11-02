@@ -57,6 +57,7 @@ class SlotDataType(IntEnum):
     use_vanilla_levels = 13
     emblem_reqs = 14
     gate_reqs = 15
+    drop_gage = 16
 
 class KHDDDSocket():
     @property

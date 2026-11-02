@@ -240,6 +240,16 @@ class SkipLightCycle(Toggle):
     display_name = "Skip Light Cycle"
     default = True
 
+class EnableDropGauge(Toggle):
+    """
+    Enables the drop gauge, which will forcefully
+    drop you to the other character when it runs out.
+
+    This needs to be enabled to play with Drop Link.
+    """
+    display_name = "Enable Drop Gauge"
+    default = False
+
 class FastGoMode(Toggle):
     """
     When enabled, the save point for Young Xehanort is
@@ -355,6 +365,7 @@ class KHDDDOptions(PerGameCommonOptions):
     link_board_sanity: LinkBoardSanity
     play_destiny_islands: PlayDestinyIslands
     skip_light_cycle: SkipLightCycle
+    enable_drop_gage: EnableDropGauge
     fast_go_mode: FastGoMode
     exp_multiplier: ExpMultiplier
     super_jump_start: StartWithSuperJump
