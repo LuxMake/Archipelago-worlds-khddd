@@ -4,8 +4,8 @@ from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, add_item_rule
 from BaseClasses import ItemClassification
 
-from .Locations import KHDDDLocation, location_data_table, location_name_groups
-from .Items import get_items_by_category, SPIRITLIST
+from .Locations import KHDDDLocation, location_data_table, location_name_groups, gate_thresholds
+from .Items import get_items_by_category, SPIRITLIST, get_spirit_by_id
 
 from rule_builder.rules import Rule, True_, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
 
@@ -27,6 +27,25 @@ def beat_x_sora_worlds(num_of_worlds: int) -> Rule[Any]:
 
 def beat_x_riku_worlds(num_of_worlds: int) -> Rule[Any]:
     return HasAllCounts({"Worlds Beaten [Riku]": num_of_worlds})
+
+def gated_nodes(spirit_name: str, gate_num: int) -> range:
+    """0-based nodes from a gate up to the board's next gate or its end."""
+    thresholds = gate_thresholds[spirit_name]
+    if gate_num >= len(thresholds):
+        return range(0)
+    first_node = thresholds[gate_num]
+    return range(first_node, min((node for node in thresholds if node > first_node), default=16))
+
+def gate_rules(gate_requirements: list[list[int]]) -> dict[str, Rule[Any]]:
+    """Rule per gated node from [spirit id, character id, gate 1 worlds, optional gate 2 worlds] entries."""
+    rules = {}
+    for spirit_id, character, *world_reqs in gate_requirements:
+        spirit_name = get_spirit_by_id(spirit_id)
+        beat_worlds = beat_x_sora_worlds if character == 1 else beat_x_riku_worlds
+        for gate_num, world_req in enumerate(world_reqs):
+            for node in gated_nodes(spirit_name, gate_num):
+                rules[f"{spirit_name} Node {node + 1:02d}"] = beat_worlds(world_req)
+    return rules
 
 def tt2_access_sora() -> Rule[Any]:
     return HasAllCounts({"Traverse Town [Sora]" : 2})
@@ -70,13 +89,14 @@ def set_rules(khdddworld):
     options = khdddworld.options
 
     #Make all Link Board nodes require base recipe
+    node_gate_rules = gate_rules(khdddworld.gate_requirements)
     for name, data in location_name_groups.items():
         if "Ability Link" in name:
             spirit_name = name[:-13] #Trim " Ability Link"
 
             if SPIRITLIST[spirit_name] in khdddworld.ids_for_gates: #Only add rule for recipes in the pool
                 for nodes in data:
-                    khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & khdddworld.gate_rules.get(nodes, True_()))
+                    khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & node_gate_rules.get(nodes, True_()))
 
 
     #Ensure the player is not expected to level grind much for checks
