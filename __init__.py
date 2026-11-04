@@ -1,13 +1,14 @@
 from typing import List, Dict, Any, ClassVar, Optional
+from ast import literal_eval
 
 from BaseClasses import Region, Entrance, Tutorial, ItemClassification
 from Options import Option
 from worlds.AutoWorld import World
 from .Items import KHDDDItem, item_data_table, item_table, item_name_groups, get_items_by_category, get_items_by_character_category, SPIRITLIST, get_spirit_by_id
-from .Locations import KHDDDLocation, location_data_table, location_name_groups, location_table, event_location_table, get_locations_by_region, gate_thresholds
+from .Locations import KHDDDLocation, location_data_table, location_name_groups, location_table, event_location_table, get_locations_by_region
 from .Options import KHDDDOptions
 from .Regions import region_data_table, create_regions
-from .Rules import set_rules, beat_x_sora_worlds, beat_x_riku_worlds
+from .Rules import set_rules
 from worlds.LauncherComponents import Component, components, Type, launch as launch_component, icon_paths
 
 from ..generic.Rules import add_item_rule, add_rule
@@ -29,6 +30,27 @@ class KHDDDSettings(Group):
         required = False
     ut_poptracker_pack: UTPoptrackerPath | str = UTPoptrackerPath()
 
+#World byte from the game: (Sora map, Riku map) indexes in the pack's maps/maps.json
+PT_MAP_INDEXES = {
+    0x03: (13, 12), #Traverse Town
+    0x04: (2, 1), #Country of the Musketeers
+    0x05: (9, 8), #Symphony of Sorcery
+    0x06: (7, 6), #Prankster's Paradise
+    0x08: (5, 4), #La Cite des Cloches
+    0x09: (11, 10), #The Grid
+    0x0A: (3, 0), #The World That Never Was
+}
+FIRST_PT_MAP_INDEX = 13 #Traverse Town [Sora]
+
+def map_page_index(room: Any) -> int:
+    """Map to show for the stored {world, room, character} value; -1 keeps the current map."""
+    if not room: #UT loads the first map before it has read data storage
+        return FIRST_PT_MAP_INDEX
+    try:
+        return PT_MAP_INDEXES[int(room["world"])][int(room["character"])]
+    except (KeyError, IndexError, TypeError, ValueError):
+        return -1
+
 class KHDDDWorld(World):
     """KHDDD is a cool KH game"""
     game = "Kingdom Hearts Dream Drop Distance"
@@ -43,21 +65,25 @@ class KHDDDWorld(World):
 
     #UT
     settings: ClassVar[KHDDDSettings]
-    tracker_worlds: ClassVar = {
-        "external_pack_key" : "ut_poptracker_path"
+    tracker_world: ClassVar[dict[str, Any]] = {
+        "external_pack_key": "ut_poptracker_pack",
+        "map_page_maps": "maps/maps.json",
+        "map_page_locations": "locations/locations.json",
+        "map_page_setting_key": "khddd_{team}_{player}_room",
+        "map_page_index": map_page_index,
     }
     ut_can_gen_without_yaml = True
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
-        #Trigger a regen in UT
+        #Trigger a re-gen in UT
         return slot_data
 
     #Containers needed for gen
     ids_for_gates = []
     gate_requirements = []
-    gate_rules = {}
     recipes_in_pool = []
+    re_gen_gate_reqs = []
 
     def create_item(self, name: str) -> KHDDDItem:
         return KHDDDItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
@@ -66,8 +92,8 @@ class KHDDDWorld(World):
         super(KHDDDWorld, self).__init__(multiworld, player)
         self.ids_for_gates = []
         self.gate_requirements = []
-        self.gate_rules = {}
         self.recipes_in_pool = []
+        self.re_gen_gate_reqs = []
 
 
     def generate_early(self): #Need to determine recipes before regions are created
@@ -83,6 +109,16 @@ class KHDDDWorld(World):
                 opt: Optional[Option] = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
+
+            #Safely put the string gate_reqs into a list of lists for regenerating
+            try:
+                self.re_gen_gate_reqs = literal_eval(slot_data["gate_reqs"])
+            except KeyError: #Seeds that predate gate_reqs
+                pass
+            if self.re_gen_gate_reqs:
+                self.ids_for_gates = [req[0] for req in self.re_gen_gate_reqs]
+                self.recipes_in_pool = [get_spirit_by_id(x)+" Recipe" for x in self.ids_for_gates]
+                return
 
         # Add recipes to the item pool
         self.recipes_in_pool = []
@@ -374,6 +410,9 @@ class KHDDDWorld(World):
         slot_data["gate_reqs"] = str(self.gate_requirements) #Structured as so: [[spiritid, characterid, worldCount1, worldCount2]
 
         slot_data["drop_gage"] = int(self.options.enable_drop_gage.value)
+        #For UT re-gen; the rolled recipe pool and gates come from gate_reqs instead
+        slot_data["options"] = self.options.as_dict("character", "goal", "armored_ventus_nightmare", "emblem_reqs", "recipe_reqs",
+                                                    "superbosses", "lord_kyroo", "play_destiny_islands", "stats_on_levels")
 
         return slot_data
 
@@ -397,6 +436,9 @@ class KHDDDWorld(World):
         return non_remote_ids
 
     def get_gate_requirements(self):
+        if self.re_gen_gate_reqs:
+            return self.re_gen_gate_reqs
+
         gate_reqs = []
 
         ids_with_1_gate = [6, 8, 10, 11, 12, 15, 16, 17, 19, 21, 24, 25, 27, 32, 34, 36, 42, 43, 45, 47, 53]
@@ -406,57 +448,18 @@ class KHDDDWorld(World):
 
         #Structure output as 2d list: [[Spirit_ID, Character_ID, Gate_1_Req, Gate_2_Req]]
         for x in self.ids_for_gates:
-            spirit_name = get_spirit_by_id(x)
             chosen_character = int(self.options.character.value)
             if chosen_character == 0:
                 chosen_character = self.random.randint(1, 2)
             if x in ids_with_1_gate:
                 gate_val = int(self.random.randint(min_gate, max_gate))
-                #Create Gate Rule
-                self.set_gate_rules(spirit_name, 0, chosen_character, gate_val)
                 gate_reqs.append([x, chosen_character, gate_val])
             else:
                 gate_val_1 = int(self.random.randint(min_gate, max_gate))
                 gate_val_2 = int(self.random.randint(min_gate, max_gate))
-
-                #Create gate rules
-                self.set_gate_rules(spirit_name, 0, chosen_character, gate_val_1)
-                self.set_gate_rules(spirit_name, 1, chosen_character, gate_val_2)
-
                 gate_reqs.append([x, chosen_character, gate_val_1, gate_val_2])
 
         return gate_reqs
-
-    def set_gate_rules(self, spiritName, gateNum, character, worldReq):
-        #Get gate thresholds
-        gated_nodes = gate_thresholds[spiritName]
-
-        if gateNum + 1 > len(gated_nodes):
-            return
-
-        go_to_end = False
-        if len(gated_nodes) == 1:
-            go_to_end = True
-        elif len(gated_nodes) > 1:
-            larger_gate = max(gated_nodes[0], gated_nodes[1])
-            if gated_nodes[gateNum] == larger_gate:
-                go_to_end = True
-
-        end_node = 16
-        if not go_to_end:
-            if gateNum == 0:
-                end_node = gated_nodes[1]
-            else:
-                end_node = gated_nodes[0]
-
-        for x in range(gated_nodes[gateNum], end_node):
-            node_num = f"{(x+1):02d}"
-            loc_name = spiritName+" Node "+node_num
-            #Combined with the node's recipe rule in set_rules
-            if character == 1:
-                self.gate_rules[loc_name] = beat_x_sora_worlds(worldReq)
-            else:
-                self.gate_rules[loc_name] = beat_x_riku_worlds(worldReq)
 
     def using_vanilla_stats(self):
         is_vanilla = 0
