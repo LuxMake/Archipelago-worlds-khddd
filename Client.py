@@ -168,6 +168,8 @@ class KHDDDContext(TrackerGameContext):
                 new_locations = set(args["checked_locations"])
                 self.locations_checked |= new_locations
 
+
+
         #Send scouted board data to client for displaying item names
         if cmd in {"LocationInfo"}:
             location_info:NetworkItem = args["locations"]
