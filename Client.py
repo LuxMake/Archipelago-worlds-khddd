@@ -10,7 +10,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
 import ModuleUpdate
-from worlds.khddd.Client_GUI import KHDDDManager
+from worlds.khddd.Client_GUI import KHDDDManager, LinkBoardSearch
 
 ModuleUpdate.update()
 
@@ -18,8 +18,10 @@ import Utils
 item_num = 1
 
 from .Socket import KHDDDSocket, SlotDataType, DDDCommand
-from .Items import get_spirit_by_id, SPIRITLIST
+from .Items import get_spirit_by_id, SPIRITLIST, item_table
 from .Locations import get_location_name, get_location_id, location_name_groups
+
+RECIPE_SPIRITS = {item_table[name+" Recipe"]: name for name in SPIRITLIST}
 
 if __name__ == "__main__":
     Utils.init_logging("KHDDDClient", exception_logger="Client")
@@ -27,7 +29,6 @@ if __name__ == "__main__":
 from NetUtils import NetworkItem, ClientStatus
 
 from CommonClient import (
-    CommonContext,
     get_base_parser,
     logger,
     server_loop,
@@ -36,16 +37,16 @@ from CommonClient import (
 
 tracker_loaded = False
 try:
-    from worlds.tracker.TrackerClient import TrackerGameContext, TrackerCommandProcessor
+    from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext, TrackerCommandProcessor as SuperCommandProcessor
     tracker_loaded = True
 except ModuleNotFoundError:
-    from CommonClient import ClientCommandProcessor
+    from CommonClient import CommonContext as SuperContext, ClientCommandProcessor as SuperCommandProcessor
 
 def check_stdin() -> None:
     if Utils.is_windows and sys.stdin:
         print("WARNING: Console input is not routed reliably on Windows, use the GUI instead.")
 #Does submodule work
-class KHDDDClientCommandProcessor(TrackerCommandProcessor):
+class KHDDDClientCommandProcessor(SuperCommandProcessor):
 
     def __init__(self, ctx):
         super().__init__(ctx)
@@ -73,7 +74,7 @@ class KHDDDClientCommandProcessor(TrackerCommandProcessor):
             if key not in ["keyblade_stats", "non_remote_ids"]: ##TODO: Prevent slot data from being printed
                 self.output(str(key)+": "+str(self.ctx.slot_data_info[key]))
 
-class KHDDDContext(TrackerGameContext):
+class KHDDDContext(SuperContext):
     command_processor: int = KHDDDClientCommandProcessor
     game = "Kingdom Hearts Dream Drop Distance"
     tags = {"AP"}
@@ -93,8 +94,13 @@ class KHDDDContext(TrackerGameContext):
 
     _get_items_running = False
 
+    link_board_search = None
+
     def __init__(self, server_address, password):
         super(KHDDDContext, self).__init__(server_address, password)
+
+        self.requested_boards = set()
+        self.scouted_boards = set()
 
         #Socket
         self.socket = KHDDDSocket(self)
@@ -105,6 +111,8 @@ class KHDDDContext(TrackerGameContext):
         ui.base_title = "Archipelago KHDDD Client"
         if tracker_loaded:
             ui.base_title += f" | UT"
+            self.link_board_search = LinkBoardSearch(self)
+            self.set_callback(self.link_board_search.on_tracker_update)
         return ui
 
     async def server_auth(self, password_requested:bool = False):
@@ -117,6 +125,8 @@ class KHDDDContext(TrackerGameContext):
         await super(KHDDDContext, self).connection_closed()
         self._connectedToAp = False
         self.slot_data_info = {}
+        self.requested_boards = set()
+        self.scouted_boards = set()
 
     @property
     def connectedToAp(self) -> bool:
@@ -155,6 +165,7 @@ class KHDDDContext(TrackerGameContext):
             self.send_room()
         
         if cmd in {"ReceivedItems"}:
+            self.scout_obtained_boards()
             if len(args["items"]) > 0:
                 self.socket.send_multipleItems(args["items"], len(self.items_received))
             else:
@@ -180,6 +191,8 @@ class KHDDDContext(TrackerGameContext):
                     locName = get_location_name(item.location)
                     if locName != "":
                         spiritId = SPIRITLIST[locName[:-8]]
+                        if spiritId not in self.requested_boards: #Tracker scouts; the game only takes boards it opened
+                            continue
 
                         #Determine Node Number
                         nodeNum = int(locName[-2:])
@@ -195,7 +208,8 @@ class KHDDDContext(TrackerGameContext):
 
 
                     pass
-            pass
+            if self.link_board_search:
+                self.link_board_search.refresh()
 
         #Send item notifications to game
         if cmd in {"PrintJSON"} and "type" in args:
@@ -259,6 +273,7 @@ class KHDDDContext(TrackerGameContext):
 
         if spiritName == "":
             return
+        self.requested_boards.add(spiritID)
 
         #Get table of ids to pass into scout
         idTbl = []
@@ -271,6 +286,20 @@ class KHDDDContext(TrackerGameContext):
                 "locations": idTbl,
                 "create_as_hint": 0
             }]), name="KHDDDScoutBoard")
+
+    def scout_obtained_boards(self):
+        """Scouts the boards of newly received spirits so UT's Link Boards search can match their items."""
+        if not self.link_board_search or not self.slot_data_info.get("link_board_sanity", 1):
+            return
+        new_boards = {RECIPE_SPIRITS[item.item] for item in self.items_received if item.item in RECIPE_SPIRITS} - self.scouted_boards
+        if not new_boards:
+            return
+        self.scouted_boards |= new_boards
+        asyncio.create_task(self.send_msgs([{
+            "cmd": "LocationScouts",
+            "locations": [get_location_id(name) for spirit in new_boards for name in location_name_groups[spirit+" Ability Link"]],
+            "create_as_hint": 0
+        }]), name="KHDDDScoutObtainedBoards")
 
     def set_data_storage(self, world, room, character):
         try:
