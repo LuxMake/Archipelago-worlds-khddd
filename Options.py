@@ -250,6 +250,30 @@ class EnableDropGauge(Toggle):
     display_name = "Enable Drop Gauge"
     default = False
 
+class DropLink(Toggle):
+    """
+    Enables Drop Link.
+    Whenever a DDD player drops, all DDD players drop.
+
+    NOTE: If Enable Drop Gauge is disabled, then this will
+    only trigger when receiving an instant drop trap. Manually
+    dropping will not trigger this.
+    """
+    display_name = "Enable Drop Link"
+
+class EnergyLink(Toggle):
+    """
+    Enables Energy Link for your Drop Gauge.
+
+    Energy Link will cause your drop gauge to pull from
+    a shared resource across players. If the shared resource
+    is empty, you will drop.
+
+    Requires Enable Drop Gauge to be enabled.
+    """
+    display_name = "Enable Energy Link"
+
+
 class FastGoMode(Toggle):
     """
     When enabled, the save point for Young Xehanort is
