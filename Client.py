@@ -337,6 +337,34 @@ class KHDDDContext(SuperContext):
             await asyncio.sleep(5)
 
 
+#Energy Link
+
+##TODO: Need to figure out a good conversion rate from joules to drop meter
+
+def client_requested_energy(self, amt:float):
+    asyncio.create_task(self.send_msgs([{
+        "cmd": "Set",
+        "key": "EnergyLink0",
+        "default": 0,
+        "want_reply": True,
+        "operations": [
+            {"operation": "add", "value": amt},
+        ]
+    }]))
+
+def client_sent_energy(self, amt:float):
+    asyncio.create_task(self.send_msgs([{
+        "cmd": "Set",
+        "key": "EnergyLink0",
+        "tag": "<per-message uuid>",
+        "default": 0,
+        "want_reply": True,
+        "operations": [
+            {"operation": "add", "value": -amt},
+            {"operation": "max", "value": 0}
+        ]
+    }]))
+
 async def game_watcher(ctx: KHDDDContext):
     while not ctx.exit_event.is_set():
         try:

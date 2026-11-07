@@ -409,7 +409,7 @@ class KHDDDWorld(World):
 
         slot_data["gate_reqs"] = str(self.gate_requirements) #Structured as so: [[spiritid, characterid, worldCount1, worldCount2]
 
-        slot_data["drop_gage"] = int(self.options.enable_drop_gage.value)
+        slot_data["drop_gauge"] = int(self.options.enable_drop_gauge.value)
         #For UT re-gen; the rolled recipe pool and gates come from gate_reqs instead
         slot_data["options"] = self.options.as_dict("character", "goal", "armored_ventus_nightmare", "emblem_reqs", "recipe_reqs",
                                                     "superbosses", "lord_kyroo", "play_destiny_islands", "stats_on_levels")
