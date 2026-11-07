@@ -32,15 +32,15 @@ class KHDDDSettings(Group):
 
 #World byte from the game: (Sora map, Riku map) indexes in the pack's maps/maps.json
 PT_MAP_INDEXES = {
-    0x03: (13, 12), #Traverse Town
-    0x04: (2, 1), #Country of the Musketeers
-    0x05: (9, 8), #Symphony of Sorcery
-    0x06: (7, 6), #Prankster's Paradise
-    0x08: (5, 4), #La Cite des Cloches
-    0x09: (11, 10), #The Grid
-    0x0A: (3, 0), #The World That Never Was
+    0x03: (1, 8), #Traverse Town
+    0x04: (5, 12), #Country of the Musketeers
+    0x05: (6, 13), #Symphony of Sorcery
+    0x06: (4, 11), #Prankster's Paradise
+    0x08: (2, 9), #La Cite des Cloches
+    0x09: (3, 10), #The Grid
+    0x0A: (7, 14), #The World That Never Was
 }
-FIRST_PT_MAP_INDEX = 13 #Traverse Town [Sora]
+FIRST_PT_MAP_INDEX = 0 #Overworld
 
 def map_page_index(room: Any) -> int:
     """Map to show for the stored {world, room, character} value; -1 keeps the current map."""
@@ -50,6 +50,18 @@ def map_page_index(room: Any) -> int:
         return PT_MAP_INDEXES[int(room["world"])][int(room["character"])]
     except (KeyError, IndexError, TypeError, ValueError):
         return -1
+
+UT_WORLDS = ["Traverse Town", "La Cite des Cloches", "The Grid", "Prankster's Paradise",
+             "Country of the Musketeers", "Symphony of Sorcery", "The World That Never Was"]
+#UT draws only items in the item pool, so starting worlds and a starting Super Jump are left out
+UT_ITEM_LAYOUTS = [
+    {"name": "Sora Worlds", "items": [f"{world} [Sora]" for world in UT_WORLDS], "cols": 4},
+    {"name": "Riku Worlds", "items": [f"{world} [Riku]" for world in UT_WORLDS], "cols": 4},
+    {"name": "Movement", "cols": 4, "items": ["Flowmotion", "Wall Kick", "Super Jump", "Pole Spin", "Pole Swing",
+                                              "Rail Slide", "High Jump", "Air Slide", "Glide", "Superglide",
+                                              "Double Flight"]},
+    {"name": "Items", "cols": 4, "items": ["Recusant Sigil", "Lucky Emblem", "Meow Wow Recipe", "Komory Bat Recipe"]},
+]
 
 class KHDDDWorld(World):
     """KHDDD is a cool KH game"""
@@ -67,10 +79,12 @@ class KHDDDWorld(World):
     settings: ClassVar[KHDDDSettings]
     tracker_world: ClassVar[dict[str, Any]] = {
         "external_pack_key": "ut_poptracker_pack",
-        "map_page_maps": "maps/maps.json",
+        "map_page_maps": "maps/ut_maps.json", #maps.json with a Link Boards image that has the names drawn in
         "map_page_locations": "locations/locations.json",
         "map_page_setting_key": "khddd_{team}_{player}_room",
         "map_page_index": map_page_index,
+        "item_page_items": "items/items.json",
+        "map_page_item_layouts_right": UT_ITEM_LAYOUTS,
     }
     ut_can_gen_without_yaml = True
 
@@ -84,6 +98,7 @@ class KHDDDWorld(World):
     gate_requirements = []
     recipes_in_pool = []
     re_gen_gate_reqs = []
+    starting_worlds: Optional[List[str]] = None #None until rolled; a UT re-gen takes them from slot data
 
     def create_item(self, name: str) -> KHDDDItem:
         return KHDDDItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
@@ -94,6 +109,7 @@ class KHDDDWorld(World):
         self.gate_requirements = []
         self.recipes_in_pool = []
         self.re_gen_gate_reqs = []
+        self.starting_worlds = None
 
 
     def generate_early(self): #Need to determine recipes before regions are created
@@ -109,6 +125,7 @@ class KHDDDWorld(World):
                 opt: Optional[Option] = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
+            self.starting_worlds = slot_data.get("starting_worlds")
 
             #Safely put the string gate_reqs into a list of lists for regenerating
             try:
@@ -209,22 +226,23 @@ class KHDDDWorld(World):
 
     def determine_starting_worlds(self):
         #Starting Worlds
-        starting_worlds = []
-        world_count = self.options.starting_worlds
-        if self.options.starting_worlds == 0 and self.options.play_destiny_islands == 0 or self.options.character == 2:
-            world_count = 1
-        if world_count > 0:
-            possible_starting_worlds = []
-            if self.options.character < 2: #TODO: Include Traverse Town
-                possible_starting_worlds = possible_starting_worlds + ["La Cite des Cloches [Sora]", "Prankster's Paradise [Sora]",
-                    "Country of the Musketeers [Sora]", "Symphony of Sorcery [Sora]"]
-            if self.options.character == 2 or self.options.character == 0:
-                possible_starting_worlds = possible_starting_worlds + [ "The Grid [Riku]",
-                    "La Cite des Cloches [Riku]", "Prankster's Paradise [Riku]", "Country of the Musketeers [Riku]", "Symphony of Sorcery [Riku]"]
-            starting_worlds = self.random.sample(possible_starting_worlds, min(world_count, len(possible_starting_worlds)))
-            for starting_world in starting_worlds:
-                self.multiworld.push_precollected(self.create_item(starting_world))
-        return starting_worlds
+        if self.starting_worlds is None:
+            self.starting_worlds = []
+            world_count = self.options.starting_worlds
+            if self.options.starting_worlds == 0 and self.options.play_destiny_islands == 0 or self.options.character == 2:
+                world_count = 1
+            if world_count > 0:
+                possible_starting_worlds = []
+                if self.options.character < 2: #TODO: Include Traverse Town
+                    possible_starting_worlds = possible_starting_worlds + ["La Cite des Cloches [Sora]", "Prankster's Paradise [Sora]",
+                        "Country of the Musketeers [Sora]", "Symphony of Sorcery [Sora]"]
+                if self.options.character == 2 or self.options.character == 0:
+                    possible_starting_worlds = possible_starting_worlds + [ "The Grid [Riku]",
+                        "La Cite des Cloches [Riku]", "Prankster's Paradise [Riku]", "Country of the Musketeers [Riku]", "Symphony of Sorcery [Riku]"]
+                self.starting_worlds = self.random.sample(possible_starting_worlds, min(world_count, len(possible_starting_worlds)))
+        for starting_world in self.starting_worlds:
+            self.multiworld.push_precollected(self.create_item(starting_world))
+        return self.starting_worlds
 
     def place_starting_items(self):
         if self.options.super_jump_start:
@@ -412,7 +430,9 @@ class KHDDDWorld(World):
         slot_data["drop_gage"] = int(self.options.enable_drop_gage.value)
         #For UT re-gen; the rolled recipe pool and gates come from gate_reqs instead
         slot_data["options"] = self.options.as_dict("character", "goal", "armored_ventus_nightmare", "emblem_reqs", "recipe_reqs",
-                                                    "superbosses", "lord_kyroo", "play_destiny_islands", "stats_on_levels")
+                                                    "superbosses", "lord_kyroo", "play_destiny_islands", "stats_on_levels",
+                                                    "single_flowmotion", "super_jump_start")
+        slot_data["starting_worlds"] = self.starting_worlds
 
         return slot_data
 
