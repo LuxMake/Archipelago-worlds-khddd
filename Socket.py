@@ -33,6 +33,10 @@ class MessageType(IntEnum):
     ScoutBoard = 17
     NodeChecked = 18
     Closed = 20
+    #Energy Link
+    RequestingEnergy=21, #Game mod wants energy
+    SendingEnergy=22, #Game mod is sending energy
+    GiveEnergy=23 #Giving energy to game mod
 
 class DDDCommand(IntEnum):
     DROP = 0
@@ -57,7 +61,7 @@ class SlotDataType(IntEnum):
     use_vanilla_levels = 13
     emblem_reqs = 14
     gate_reqs = 15
-    drop_gage = 16
+    drop_gauge = 16
 
 class KHDDDSocket():
     @property
@@ -367,6 +371,16 @@ class KHDDDSocket():
 
     def item_msg(self, itemName:str, owningPlayer:str, itemCategory:str):
         self.send(MessageType.ItemPrompt, [itemName, owningPlayer, itemCategory])
+
+    #Energy Link
+
+    #Client mod is requesting energy
+    def requesting_energy(self, msg):
+        pass
+
+    #Client mod is storing energy
+    def storing_energy(self, msg):
+        pass
 
     def shutdown_server(self):
         self.client_socket.close()
