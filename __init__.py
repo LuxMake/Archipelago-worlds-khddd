@@ -53,7 +53,6 @@ def map_page_index(room: Any) -> int:
 
 UT_WORLDS = ["Traverse Town", "La Cite des Cloches", "The Grid", "Prankster's Paradise",
              "Country of the Musketeers", "Symphony of Sorcery", "The World That Never Was"]
-#UT draws only items in the item pool, so starting worlds and a starting Super Jump are left out
 UT_ITEM_LAYOUTS = [
     {"name": "Sora Worlds", "items": [f"{world} [Sora]" for world in UT_WORLDS], "cols": 4},
     {"name": "Riku Worlds", "items": [f"{world} [Riku]" for world in UT_WORLDS], "cols": 4},
@@ -223,6 +222,11 @@ class KHDDDWorld(World):
             item_pool.append(self.create_item(self.get_filler_item_name()))
 
         self.multiworld.itempool += item_pool
+
+        #UT's item panel draws only pool items, and its fake generation never fills the pool
+        if getattr(self.multiworld, "generation_is_fake", False):
+            self.multiworld.itempool += [self.create_item(item.name)
+                                         for item in self.multiworld.precollected_items[self.player]]
 
     def determine_starting_worlds(self):
         #Starting Worlds
