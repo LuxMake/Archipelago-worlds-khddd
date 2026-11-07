@@ -288,7 +288,7 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Circus Rampant Fancy [Sora]"),
                  can_infinite_jump() | (Has("High Jump") & can_pole_jump()))
         khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Amusement Park Blizzara [Sora]"),
-                            can_infinite_jump() | HasAll("Superjump", "Rail Slide") | HasAny("Flowmotion", "Glide", "Superglide"))
+                            can_infinite_jump() | HasAll("Super Jump", "Rail Slide") | HasAny("Flowmotion", "Glide", "Superglide"))
         khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Promontory Water Barrel [Sora]"),
                             can_infinite_jump() | can_glide())
 
