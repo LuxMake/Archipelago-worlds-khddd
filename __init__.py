@@ -32,15 +32,15 @@ class KHDDDSettings(Group):
 
 #World byte from the game: (Sora map, Riku map) indexes in the pack's maps/maps.json
 PT_MAP_INDEXES = {
-    0x03: (13, 12), #Traverse Town
-    0x04: (2, 1), #Country of the Musketeers
-    0x05: (9, 8), #Symphony of Sorcery
-    0x06: (7, 6), #Prankster's Paradise
-    0x08: (5, 4), #La Cite des Cloches
-    0x09: (11, 10), #The Grid
-    0x0A: (3, 0), #The World That Never Was
+    0x03: (1, 8), #Traverse Town
+    0x04: (5, 12), #Country of the Musketeers
+    0x05: (6, 13), #Symphony of Sorcery
+    0x06: (4, 11), #Prankster's Paradise
+    0x08: (2, 9), #La Cite des Cloches
+    0x09: (3, 10), #The Grid
+    0x0A: (7, 14), #The World That Never Was
 }
-FIRST_PT_MAP_INDEX = 13 #Traverse Town [Sora]
+FIRST_PT_MAP_INDEX = 0 #Overworld
 
 def map_page_index(room: Any) -> int:
     """Map to show for the stored {world, room, character} value; -1 keeps the current map."""
