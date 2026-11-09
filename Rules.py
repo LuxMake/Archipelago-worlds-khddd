@@ -655,11 +655,11 @@ def set_rules(khdddworld):
                     CanReachLocation("The World That Never Was Young Xehanort Defeated [Riku]") & HasAny("Rail Slide", "Flowmotion"))
 
     if options.goal == 1: #All Superbosses defeated needs a rule here too
-        superbosses_rule = has_required_recipes(options.recipe_reqs.value)
+        superbosses_rule = has_required_recipes(options.recipe_reqs.value) & HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})
         if options.character == 0 or options.character == 1:
             superbosses_rule &= can_access_sora_portals() & tt2_access_sora()
         if options.character == 0 or options.character == 2:
-            superbosses_rule &= can_access_riku_portals() & tt2_access_riku() & HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})
+            superbosses_rule &= can_access_riku_portals() & tt2_access_riku()
         khdddworld.set_rule(khdddworld.get_location("All Superbosses Defeated [Sora] [Riku]"), superbosses_rule)
 
     #Lord Kyroo Completion Access
