@@ -72,7 +72,7 @@ location_data_table: Dict[str, KHDDDLocationData] = {
     ),
 
     "The Grid Secret Portal [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2680205,
         category="Portal"
     ),
@@ -162,17 +162,17 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         category="Reward"
     ),
     "Traverse Town Hockomonkey Bonus Slot 1 [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2670211,
         category="Slot"
     ),
     "Traverse Town Hockomonkey Bonus Slot 2 [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2670212,
         category="Slot"
     ),
     "Traverse Town Skull Noise Reward [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2670213,
         category="Reward"
     ),
@@ -207,22 +207,22 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         category="Reward"
     ),
     "The Grid Counter Rush Reward [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2670220,
         category="Reward"
     ),
     "The Grid Rinzler Bonus Slot 1 [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2670221,
         category="Slot"
     ),
     "The Grid Rinzler Bonus Slot 2 [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2670222,
         category="Slot"
     ),
     "The Grid Dual Disc Reward [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2670223,
         category="Reward"
     ),
@@ -476,32 +476,32 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         category="Reward"
     ),
     "Country of the Musketeers Flashback: Bon Journey Reward [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2670273,
         category="Reward"
     ),
     "Country of the Musketeers Stage Gadget Reward [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2670274,
         category="Bonus" #Player gets rewarded the stage gadget here as well, so extra item is a bonus
     ),
     "Country of the Musketeers Holey Moley Bonus Slot 1 [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2670275,
         category="Slot"
     ),
     "Country of the Musketeers Shadow Slide Reward [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2670276,
         category="Reward"
     ),
     "Country of the Musketeers Shadow Strike Reward [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2670277,
         category="Reward"
     ),
     "Country of the Musketeers All For One Reward [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2670278,
         category="Reward"
     ),
@@ -511,17 +511,17 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         category="Reward"
     ),
     "Symphony of Sorcery Chernobog Bonus Slot 1 [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2670280,
         category="Slot"
     ),
     "Symphony of Sorcery Chernobog Bonus Slot 2 [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2670281,
         category="Slot"
     ),
     "Symphony of Sorcery Counterpoint Reward [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2670282,
         category="Reward"
     ),
@@ -652,47 +652,47 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650217
     ),
     "Traverse Town Fourth District Shield Cookie [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650218
     ),
     "Traverse Town Fourth District Water Barrel [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650219
     ),
     "Traverse Town Fourth District Hi-Potion [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650220
     ),
     "Traverse Town Fourth District Ice Dream Cone [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650221
     ),
     "Traverse Town Fifth District Shield Cookie [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650222
     ),
     "Traverse Town Fifth District Potion [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650223
     ),
     "Traverse Town Fifth District Block-It Chocolate [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650224
     ),
     "Traverse Town Fountain Plaza Balloon [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650225
     ),
     "Traverse Town Fountain Plaza Intrepid Figment [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650226
     ),
     "Traverse Town Fountain Plaza Ice Dream Cone [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650227
     ),
     "Traverse Town Fountain Plaza Rampant Fantasy [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650228
     ),
     "Country of the Musketeers Grand Lobby Mega-Potion [Sora]": KHDDDLocationData(
@@ -848,67 +848,67 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650266
     ),
     "The Grid Rectifier 1F Ice Dream Cone 2 [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650267
     ),
     "The Grid Rectifier 1F Drop-Me-Not [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650268
     ),
     "The Grid Rectifier 1F Potion [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650269
     ),
     "The Grid Rectifier 1F Panacea [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650270
     ),
     "The Grid Rectifier 1F Shield Cookie [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650271
     ),
     "The Grid Rectifier 1F Hi-Potion [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650272
     ),
     "The Grid Rectifier 1F Lofty Fantasy [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650273
     ),
     "The Grid Rectifier 1F Ice Dream Cone [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650274
     ),
     "The Grid Docks Eaglider Recipe [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650275
     ),
     "The Grid Docks Candy Goggles [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650276
     ),
     "The Grid Docks Paint Gun: Black [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650277
     ),
     "The Grid Docks Panacea [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650278
     ),
     "The Grid Docks Drop-Me-Not [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650279
     ),
     "The Grid Docks Balloon [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650280
     ),
     "The Grid City Drop-Me-Not [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650281
     ),
     "The Grid City Troubling Fancy [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650282
     ),
     "The Grid City Potion [Sora]": KHDDDLocationData(
@@ -916,139 +916,139 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650283
     ),
     "The Grid City Water Barrel [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650284
     ),
     "The Grid City Block-It Chocolate 2 [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650285
     ),
     "The Grid Throughput Fleeting Figment [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650286
     ),
     "The Grid Throughput Circle Raid [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650287
     ),
     "The Grid Throughput Dulcet Figment [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650288
     ),
     "The Grid Throughput Royal Cake [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650289
     ),
     "The Grid Throughput Confetti Candy [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650290
     ),
     "The Grid Throughput Potion [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650291
     ),
     "The Grid Bridge Block-It Chocolate [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650292
     ),
     "The Grid Bridge Drop-Me-Not [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650293
     ),
     "The Grid Rectifier 2F Cyber Yog Recipe [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650294
     ),
     "The Grid Rectifier 2F Shield Cookie 2 [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650295
     ),
     "The Grid Rectifier 2F Ice Dream Cone [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650296
     ),
     "The Grid Rectifier 2F Potion [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650297
     ),
     "The Grid Rectifier 2F Drop-Me-Not [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650298
     ),
     "The Grid Rectifier 2F Paint Gun: Green [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650299
     ),
     "The Grid Solar Sailer Confetti Candy 2 [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650300
     ),
     "The Grid Solar Sailer Wondrous Figment [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650301
     ),
     "The Grid Solar Sailer Fleeting Figment [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650302
     ),
     "The Grid Solar Sailer Balloon [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650303
     ),
     "The Grid Solar Sailer Hi-Potion [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650304
     ),
     "The Grid Solar Sailer Panacea [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650305
     ),
     "The Grid Solar Sailer Candy Goggles [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650306
     ),
     "Traverse Town Garden Royal Cake [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650307
     ),
     "Traverse Town Garden Confetti Candy [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650308
     ),
     "Traverse Town Garden Rampant Figment [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650309
     ),
     "Traverse Town Garden Drop-Me-Not [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650310
     ),
     "Traverse Town Fourth District Potion [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650311
     ),
     "Traverse Town Fourth District Block-It Chocolate [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650312
     ),
     "Traverse Town Fourth District 2nd Potion [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650313
     ),
     "Traverse Town Fourth District Balloon (Command) [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650314
     ),
     "The Grid Solar Sailer Balloonra [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650315
     ),
     "The Grid Solar Sailer Water Barrel [Sora]": KHDDDLocationData(
-        region="The Grid [Sora]",
+        region="The Grid Throughput [Sora]",
         code=2650316
     ),
     "Traverse Town Fountain Plaza Strike Raid [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650317
     ),
     "Country of the Musketeers Theatre Confetti Candy 3 [Sora]": KHDDDLocationData(
@@ -1060,31 +1060,31 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650319
     ),
     "Traverse Town Post Office Rampant Fantasy [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650320
     ),
     "Traverse Town Post Office Vibrant Fantasy [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650321
     ),
     "Traverse Town Post Office Troubling Fantasy [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650322
     ),
     "Traverse Town Post Office Spark [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650323
     ),
     "Traverse Town Post Office Paint Gun: Red [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650324
     ),
     "Traverse Town Post Office Potion [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650325
     ),
     "Traverse Town Post Office Ice Dream Cone [Sora]": KHDDDLocationData(
-        region="Traverse Town [Sora]",
+        region="Traverse Town Plaza [Sora]",
         code=2650326
     ),
     "Country of the Musketeers The Opera Drop-Me-Not [Sora]": KHDDDLocationData(
@@ -1804,7 +1804,7 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650504
     ),
     "The Grid City Thundara [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid City [Riku]",
         code=2650505
     ),
     "The Grid City Potion [Riku]": KHDDDLocationData(
@@ -1812,11 +1812,11 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650506
     ),
     "The Grid City Fleeting Figment [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid City [Riku]",
         code=2650507
     ),
     "The Grid City Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid City [Riku]",
         code=2650508
     ),
     "The Grid Throughput Royal Cake [Riku]": KHDDDLocationData(
@@ -2000,55 +2000,55 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650553,
     ),
     "Country of the Musketeers Green Room Candy Goggles [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650554,
     ),
     "Country of the Musketeers Green Room Prickly Fantasy [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650555,
     ),
     "Country of the Musketeers Green Room Fleeting Fantasy [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650556,
     ),
     "Country of the Musketeers Green Room Shield Cookie 3 [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650557,
     ),
     "Country of the Musketeers Green Room Hi-Potion [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650558,
     ),
     "Country of the Musketeers Machine Room Blizzaga [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650559,
     ),
     "Country of the Musketeers Machine Room Ducky Goose Recipe [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650560,
     ),
     "Country of the Musketeers Machine Room Ice Dream Cone 2 [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650561,
     ),
     "Country of the Musketeers Machine Room Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650562,
     ),
     "Country of the Musketeers Backstage Royal Cake [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650563,
     ),
     "Country of the Musketeers Backstage Fleeting Fantasy [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650564,
     ),
     "Country of the Musketeers Backstage Dream Candy [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650565,
     ),
     "Country of the Musketeers Backstage Staggerceps Recipe [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650566,
     ),
     "Symphony of Sorcery Moonlight Wood Zero Graviza [Riku]": KHDDDLocationData(
@@ -2068,31 +2068,31 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650570,
     ),
     "Symphony of Sorcery Golden Wood Elixir [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Golden Wood [Riku]",
         code=2650571,
     ),
     "Symphony of Sorcery Golden Wood Intrepid Fantasy [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Golden Wood [Riku]",
         code=2650572,
     ),
     "Symphony of Sorcery Golden Wood Mega-Potion [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Golden Wood [Riku]",
         code=2650573,
     ),
     "Symphony of Sorcery Snowgleam Wood Ice Barrage [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2650574,
     ),
     "Symphony of Sorcery Snowgleam Wood Candy Goggles [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2650575,
     ),
     "Symphony of Sorcery Snowgleam Wood Block-It Chocolate [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2650576,
     ),
     "Symphony of Sorcery Snowgleam Wood Ice Dream Cone 3 [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2650577,
     ),
     "La Cite des Cloches Windmill Block-It Chocolate [Riku]": KHDDDLocationData(
@@ -2284,15 +2284,15 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650624,
     ),
     "Country of the Musketeers Green Room Stop [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650625
     ),
     "Country of the Musketeers Green Room Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650626
     ),
     "Country of the Musketeers Green Room Confetti Candy 3 [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650627
     ),
     "The World That Never Was Verge of Chaos Paint Gun: Black [Riku]": KHDDDLocationData(
@@ -2308,11 +2308,11 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650630,
     ),
     "Symphony of Sorcery Golden Wood Paint Gun: Red [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Golden Wood [Riku]",
         code=2650631,
     ),
     "Symphony of Sorcery Golden Wood Ryu Dragon Recipe [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Golden Wood [Riku]",
         code=2650632,
     ),
     "Symphony of Sorcery Moonlight Wood Mega-Potion [Riku]": KHDDDLocationData(
@@ -2328,27 +2328,27 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650635,
     ),
     "Symphony of Sorcery Snowgleam Wood Dulcet Fancy [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2650636,
     ),
     "Symphony of Sorcery Snowgleam Wood Confetti Candy 3 [Riku]": KHDDDLocationData(
-        region="Symphony of Sorcery [Riku]",
+        region="Symphony of Sorcery Snowgleam Wood [Riku]",
         code=2650637,
     ),
     "Country of the Musketeers Machine Room Hi-Potion [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650638,
     ),
     "Country of the Musketeers Machine Room Mega-Potion [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650639,
     ),
     "Country of the Musketeers Backstage Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650640,
     ),
     "Country of the Musketeers Backstage Mega-Potion [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers [Riku]",
+        region="Country of the Musketeers Green Room [Riku]",
         code=2650641,
     ),
     "The World That Never Was Fact Within Fiction Balloon [Riku]": KHDDDLocationData(
@@ -3523,9 +3523,9 @@ location_data_table: Dict[str, KHDDDLocationData] = {
     "Riku Level 99": KHDDDLocationData(region="Levels", code=2660199, category="Slot"),
 
     #Event Locations
-    "Traverse Town Cleared [Sora]": KHDDDLocationData(region="Traverse Town [Sora]", code=None, category="Event"),
+    "Traverse Town Cleared [Sora]": KHDDDLocationData(region="Traverse Town Plaza [Sora]", code=None, category="Event"),
     "La Cite des Cloches Cleared [Sora]": KHDDDLocationData(region="La Cite des Cloches [Sora]", code=None, category="Event"),
-    "The Grid Cleared [Sora]": KHDDDLocationData(region="The Grid [Sora]", code=None, category="Event"),
+    "The Grid Cleared [Sora]": KHDDDLocationData(region="The Grid Throughput [Sora]", code=None, category="Event"),
     "Prankster's Paradise Cleared [Sora]": KHDDDLocationData(region="Prankster's Paradise [Sora]", code=None, category="Event"),
     "Country of the Musketeers Cleared [Sora]": KHDDDLocationData(region="Country of the Musketeers [Sora]", code=None, category="Event"),
     "Symphony of Sorcery Cleared [Sora]": KHDDDLocationData(region="Symphony of Sorcery [Sora]", code=None, category="Event"),
@@ -3536,8 +3536,8 @@ location_data_table: Dict[str, KHDDDLocationData] = {
     "La Cite des Cloches Cleared [Riku]": KHDDDLocationData(region="La Cite des Cloches [Riku]", code=None, category="Event"),
     "The Grid Cleared [Riku]": KHDDDLocationData(region="The Grid [Riku]", code=None, category="Event"),
     "Prankster's Paradise Cleared [Riku]": KHDDDLocationData(region="Prankster's Paradise [Riku]", code=None, category="Event"),
-    "Country of the Musketeers Cleared [Riku]": KHDDDLocationData(region="Country of the Musketeers [Riku]", code=None, category="Event"),
-    "Symphony of Sorcery Cleared [Riku]": KHDDDLocationData(region="Symphony of Sorcery [Riku]", code=None, category="Event"),
+    "Country of the Musketeers Cleared [Riku]": KHDDDLocationData(region="Country of the Musketeers Green Room [Riku]", code=None, category="Event"),
+    "Symphony of Sorcery Cleared [Riku]": KHDDDLocationData(region="Symphony of Sorcery Snowgleam Wood [Riku]", code=None, category="Event"),
     "Traverse Town 2 Cleared [Riku]": KHDDDLocationData(region="Traverse Town 2 [Riku]", code=None, category="Event"),
     "The World That Never Was Cleared [Riku]": KHDDDLocationData(region="The World That Never Was [Riku]", code=None, category="Event"),
 }
