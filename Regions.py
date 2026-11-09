@@ -46,7 +46,7 @@ def set_region_table():
         "Levels": KHDDDRegionData([], []),
 
         "Traverse Town [Sora]": KHDDDRegionData([],["Traverse Town Plaza [Sora]"]),
-        "Traverse Town Plaza [Sora]": KHDDDRegionData([],["Traverse Town [Sora]"]),
+        "Traverse Town Plaza [Sora]": KHDDDRegionData([],["Traverse Town 2 [Sora]"]),
         "La Cite des Cloches [Sora]": KHDDDRegionData([],[]),
         "The Grid [Sora]": KHDDDRegionData([],["The Grid Throughput [Sora]"]),
         "The Grid Throughput [Sora]": KHDDDRegionData([],[]),
@@ -59,11 +59,13 @@ def set_region_table():
         "Traverse Town [Riku]": KHDDDRegionData([],["Traverse Town 2 [Riku]"]),
         "La Cite des Cloches [Riku]": KHDDDRegionData([],[]),
         "The Grid [Riku]": KHDDDRegionData([],["The Grid City [Riku]"]),
-        "The Grid City [Riku]": KHDDDRegionData([],["The Grid [Riku]"]),
+        "The Grid City [Riku]": KHDDDRegionData([],[]),
         "Prankster's Paradise [Riku]": KHDDDRegionData([],[]),
         "Country of the Musketeers [Riku]": KHDDDRegionData([],["Country of the Musketeers Green Room [Riku]"]),
+        "Country of the Musketeers Green Room [Riku]": KHDDDRegionData([],[]),
         "Symphony of Sorcery [Riku]": KHDDDRegionData([],["Symphony of Sorcery Golden Wood [Riku]"]),
         "Symphony of Sorcery Golden Wood [Riku]": KHDDDRegionData([],["Symphony of Sorcery Snowgleam Wood [Riku]"]),
+        "Symphony of Sorcery Snowgleam Wood [Riku]": KHDDDRegionData([],[]),
         "The World That Never Was [Riku]": KHDDDRegionData([],[]),
         "Traverse Town 2 [Riku]": KHDDDRegionData([],[]),
 }
@@ -135,6 +137,8 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
 
     multiworld.get_entrance("Traverse Town [Sora]", player).connect(
         multiworld.get_region("Traverse Town [Sora]", player))
+    multiworld.get_entrance("Traverse Town Plaza [Sora]", player).connect(
+        multiworld.get_region("Traverse Town Plaza [Sora]", player))
     multiworld.get_entrance("Traverse Town 2 [Sora]", player).connect(
         multiworld.get_region("Traverse Town 2 [Sora]", player))
     multiworld.get_entrance("World Map [Sora]", player).connect(
@@ -143,6 +147,8 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
         multiworld.get_region("La Cite des Cloches [Sora]", player))
     multiworld.get_entrance("The Grid [Sora]", player).connect(
         multiworld.get_region("The Grid [Sora]", player))
+    multiworld.get_entrance("The Grid Throughput [Sora]", player).connect(
+        multiworld.get_region("The Grid Throughput [Sora]", player))
     multiworld.get_entrance("Prankster's Paradise [Sora]", player).connect(
         multiworld.get_region("Prankster's Paradise [Sora]", player))
     multiworld.get_entrance("Country of the Musketeers [Sora]", player).connect(
@@ -162,12 +168,20 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
         multiworld.get_region("La Cite des Cloches [Riku]", player))
     multiworld.get_entrance("The Grid [Riku]", player).connect(
         multiworld.get_region("The Grid [Riku]", player))
+    multiworld.get_entrance("The Grid City [Riku]", player).connect(
+        multiworld.get_region("The Grid City [Riku]", player))
     multiworld.get_entrance("Prankster's Paradise [Riku]", player).connect(
         multiworld.get_region("Prankster's Paradise [Riku]", player))
     multiworld.get_entrance("Country of the Musketeers [Riku]", player).connect(
         multiworld.get_region("Country of the Musketeers [Riku]", player))
+    multiworld.get_entrance("Country of the Musketeers Green Room [Riku]", player).connect(
+        multiworld.get_region("Country of the Musketeers Green Room [Riku]", player))
     multiworld.get_entrance("Symphony of Sorcery [Riku]", player).connect(
         multiworld.get_region("Symphony of Sorcery [Riku]", player))
+    multiworld.get_entrance("Symphony of Sorcery Golden Wood [Riku]", player).connect(
+        multiworld.get_region("Symphony of Sorcery Golden Wood [Riku]", player))
+    multiworld.get_entrance("Symphony of Sorcery Snowgleam Wood [Riku]", player).connect(
+        multiworld.get_region("Symphony of Sorcery Snowgleam Wood [Riku]", player))
     multiworld.get_entrance("The World That Never Was [Riku]", player).connect(
         multiworld.get_region("The World That Never Was [Riku]", player))
 
