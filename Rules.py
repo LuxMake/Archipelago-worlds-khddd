@@ -178,7 +178,7 @@ def set_rules(khdddworld):
 
         #####Fountain Plaza#####
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Rampant Fantasy [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") & (can_infinite_jump()))
+                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Strike Raid [Sora]"),
                  HasAny("Glide", "Superglide", "Flowmotion") | (can_infinite_jump()))
 
