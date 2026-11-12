@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import sys
 import asyncio
 
@@ -179,6 +180,15 @@ class KHDDDContext(SuperContext):
                 new_locations = set(args["checked_locations"])
                 self.locations_checked |= new_locations
 
+        if cmd in {"SetReply"}:
+            if args["key"] == "EnergyLink0" and args["slot"] == self.slot: #Response from energy link
+                logger.info("Requested energy link")
+                amt_got = args["original_value"] - args["value"]
+                if amt_got == 0:
+                    logger.info("Not enough energy! Collect DP to earn more.")
+                    return
+                self.socket.send_energy_to_player(amt_got)
+
 
 
         #Send scouted board data to client for displaying item names
@@ -301,6 +311,41 @@ class KHDDDContext(SuperContext):
             "create_as_hint": 0
         }]), name="KHDDDScoutObtainedBoards")
 
+    # Energy Link
+
+    ##TODO: Need to figure out a good conversion rate from joules to drop meter
+
+    # Max Drop Gauge Value is 72000
+    # Drop gauge value is a 4 byte float
+    DP_CONVERSION_RATE = 500000
+    ENERGY_CONVERSION_RATE = 1000  # Should be 1:1000
+
+    def client_requested_energy(self, amt: float):
+        asyncio.create_task(self.send_msgs([{
+            "cmd": "Set",
+            "key": "EnergyLink0",
+            "default": 0,
+            "want_reply": True,
+            "operations": [
+                {"operation": "add", "value": -amt},
+                {"operation": "max", "value": 0}
+            ]
+        }]))
+        logger.info("Sent request to retrieve energy.")
+
+    def client_sent_energy(self, amt: float):
+        asyncio.create_task(self.send_msgs([{
+            "cmd": "Set",
+            "key": "EnergyLink0",
+            "tag": "<per-message uuid>",
+            "default": 0,
+            "want_reply": True,
+            "operations": [
+                {"operation": "add", "value": amt},
+            ]
+        }]))
+        logger.info("Stored " + str(amt) + " energy from player.")
+
     def set_data_storage(self, world, room, character):
         try:
             self.last_room = {"world": int(world), "room": int(room), "character": int(character)}
@@ -335,35 +380,6 @@ class KHDDDContext(SuperContext):
                         self.socket.send_slot_data(SlotDataType[key], str(value))
                 break
             await asyncio.sleep(5)
-
-
-#Energy Link
-
-##TODO: Need to figure out a good conversion rate from joules to drop meter
-
-def client_requested_energy(self, amt:float):
-    asyncio.create_task(self.send_msgs([{
-        "cmd": "Set",
-        "key": "EnergyLink0",
-        "default": 0,
-        "want_reply": True,
-        "operations": [
-            {"operation": "add", "value": amt},
-        ]
-    }]))
-
-def client_sent_energy(self, amt:float):
-    asyncio.create_task(self.send_msgs([{
-        "cmd": "Set",
-        "key": "EnergyLink0",
-        "tag": "<per-message uuid>",
-        "default": 0,
-        "want_reply": True,
-        "operations": [
-            {"operation": "add", "value": -amt},
-            {"operation": "max", "value": 0}
-        ]
-    }]))
 
 async def game_watcher(ctx: KHDDDContext):
     while not ctx.exit_event.is_set():

@@ -1,4 +1,5 @@
 import json
+import math
 from enum import IntEnum
 import asyncio
 from re import S
@@ -36,7 +37,6 @@ class MessageType(IntEnum):
     #Energy Link
     RequestingEnergy=21, #Game mod wants energy
     SendingEnergy=22, #Game mod is sending energy
-    GiveEnergy=23 #Giving energy to game mod
 
 class DDDCommand(IntEnum):
     DROP = 0
@@ -62,6 +62,7 @@ class SlotDataType(IntEnum):
     emblem_reqs = 14
     gate_reqs = 15
     drop_gauge = 16
+    drop_energy_link = 17
 
 class KHDDDSocket():
     @property
@@ -251,6 +252,10 @@ class KHDDDSocket():
             except (TypeError, ValueError) as e:
                 print("Node check failed: "+str(e))
 
+        elif msgType == MessageType.SendingEnergy:
+            self.storing_energy(message)
+        elif msgType == MessageType.RequestingEnergy:
+            self.requesting_energy(message)
 
     def send_singleItem(self, item, itemCnt, isLocal):
         msgCont = [str(item.item), str(itemCnt)]
@@ -376,11 +381,16 @@ class KHDDDSocket():
 
     #Client mod is requesting energy
     def requesting_energy(self, msg):
-        pass
+        num_requested = float(msg[1]) * self.client.ENERGY_CONVERSION_RATE
+        self.client.client_requested_energy(num_requested)
 
     #Client mod is storing energy
     def storing_energy(self, msg):
-        pass
+        num_storing = float(msg[1]) * self.client.DP_CONVERSION_RATE
+        self.client.client_sent_energy(num_storing)
+
+    def send_energy_to_player(self, amt):
+        self.send(MessageType.RequestingEnergy, [amt/self.client.ENERGY_CONVERSION_RATE])
 
     def shutdown_server(self):
         self.client_socket.close()

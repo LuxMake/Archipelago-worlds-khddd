@@ -390,6 +390,7 @@ class KHDDDOptions(PerGameCommonOptions):
     play_destiny_islands: PlayDestinyIslands
     skip_light_cycle: SkipLightCycle
     enable_drop_gauge: EnableDropGauge
+    drop_energy_link: EnergyLink
     fast_go_mode: FastGoMode
     exp_multiplier: ExpMultiplier
     super_jump_start: StartWithSuperJump
