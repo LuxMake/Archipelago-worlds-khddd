@@ -82,7 +82,6 @@ class KHDDDContext(SuperContext):
     items_handling = 0b111 #Attempt full remote
     death_link: bool = False
     energy_link: bool = False
-    drop_link: bool = False
 
     sent_notifications = 0
 
