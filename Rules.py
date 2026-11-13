@@ -339,6 +339,8 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("The Grid Throughput Noble Fantasy [Riku]"),
                  (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion")
                          | (can_infinite_jump()) | (can_pole_jump())))
+        khdddworld.set_rule(khdddworld.get_entrance("The Grid Solar Sailer [Riku]"), #Cleared event only exists when Riku is played
+                 CanReachLocation("The Grid Cleared [Riku]"))
 
         ###################################
         ########Prankster's Paradise#######
@@ -354,17 +356,20 @@ def set_rules(khdddworld):
         ###################################
 
         #####Grand Lobby#####
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Shadowbreaker [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight") | can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Royal Cake [Riku]"),
                             can_infinite_jump() | (HasAny("Double Flight", "Wall Kick", "Rail Slide", "Flowmotion")))
+
+        #####Machine Room Upper#####
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Ducky Goose Recipe [Riku]"),
+                 HasAny("Double Flight", "Flowmotion") | can_infinite_jump())
+        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Ice Dream Cone 2 [Riku]"),
+                 HasAny("Double Flight", "Flowmotion") | can_infinite_jump())
 
         #####Backstage#####
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Royal Cake [Riku]"),
                  HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump())
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Fleeting Fantasy [Riku]"),
-                 HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump())
+                 HasAny("Double Flight", "Flowmotion") | can_infinite_jump())
 
         ###################################
         ########Symphony of Sorcery########
