@@ -374,7 +374,13 @@ class KHDDDWorld(World):
 
     def get_filler_item_name(self) -> str:
         if int(self.options.instant_drop_trap_chance) > 0: #Check to see if a trap was rolled
-            if int(self.random.randint(0, 99) < int(self.options.instant_drop_trap_chance)):
+            trap_chance = int(self.random.randint(0, 99))
+            if trap_chance < int(self.options.instant_drop_trap_chance):
+                if self.options.enable_drop_gauge:
+                    #75% chance to be mult trap instead (tentative)
+                    if trap_chance < int(self.options.instant_drop_trap_chance) * 0.75:
+                        return "Drop Multiplier +0.5"
+
                 return "Instant Drop"
         fillers = {}
         fillers.update(get_items_by_character_category(int(self.options.character), "Command"))

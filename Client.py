@@ -195,7 +195,12 @@ class KHDDDContext(SuperContext):
         if cmd in {"LocationInfo"}:
             location_info:NetworkItem = args["locations"]
             for item in location_info:
-                if item.player != self.slot: #Only send remote item data
+                #location.item.name == "Lucky Emblem" and location_data.category == "Board"
+                is_lucky_emblem = False
+                if item.player == self.slot and get_location_name(item.location) == "Lucky Emblem":
+                    is_lucky_emblem = True
+
+                if item.player != self.slot or is_lucky_emblem: #Only send remote item data
                     #Determine Spirit
                     locId = item.location
                     locName = get_location_name(item.location)
@@ -317,7 +322,7 @@ class KHDDDContext(SuperContext):
 
     # Max Drop Gauge Value is 72000
     # Drop gauge value is a 4 byte float
-    DP_CONVERSION_RATE = 500000
+    DP_CONVERSION_RATE = 2000000
     ENERGY_CONVERSION_RATE = 1000  # Should be 1:1000
 
     def client_requested_energy(self, amt: float):

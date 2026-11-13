@@ -33,10 +33,12 @@ class MessageType(IntEnum):
     HasSlotData = 16
     ScoutBoard = 17
     NodeChecked = 18
+    RequestSlotData = 19
     Closed = 20
     #Energy Link
     RequestingEnergy=21, #Game mod wants energy
     SendingEnergy=22, #Game mod is sending energy
+    DropMult=23
 
 class DDDCommand(IntEnum):
     DROP = 0
@@ -257,6 +259,9 @@ class KHDDDSocket():
         elif msgType == MessageType.RequestingEnergy:
             self.requesting_energy(message)
 
+        elif msgType == MessageType.RequestSlotData:
+            self.client.get_slot_data()
+
     def send_singleItem(self, item, itemCnt, isLocal):
         msgCont = [str(item.item), str(itemCnt)]
         if isLocal:
@@ -391,6 +396,9 @@ class KHDDDSocket():
 
     def send_energy_to_player(self, amt):
         self.send(MessageType.RequestingEnergy, [amt/self.client.ENERGY_CONVERSION_RATE])
+
+    def send_mult_trap_to_player(self, amt):
+        self.send(MessageType.DropMult, [amt])
 
     def shutdown_server(self):
         self.client_socket.close()

@@ -78,6 +78,11 @@ item_data_table: Dict[str, KHDDDItemData] = {
         code = 262_1001,
         type=ItemClassification.trap
     ),
+    "Drop Multiplier +0.5": KHDDDItemData(
+        category="Trap",
+        code = 262_1002,
+        type=ItemClassification.trap
+    ),
 
     ############################################
     ###############Stats#######################
