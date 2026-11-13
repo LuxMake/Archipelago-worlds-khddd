@@ -39,7 +39,7 @@ class MessageType(IntEnum):
     RequestingEnergy=21, #Game mod wants energy
     SendingEnergy=22, #Game mod is sending energy
     DropMult=23,
-    DepositingEnergy=24 #Direct deposit from player
+    DepositingEnergy=24 #Direct deposit from player & Adds drop-me-not/never
 
 class DDDCommand(IntEnum):
     DROP = 0
@@ -145,7 +145,7 @@ class KHDDDSocket():
                         values = msgStr.split(";")
                         logger.debug("Received message: " + msgStr)
                         self.handle_message(values)
-                    except (ValueError, IndexError) as msge:
+                    except (ValueError, IndexError, KeyError) as msge:
                         logger.debug(f"Error parsing message: {msge}; ignoring message")
             except (ConnectionResetError, OSError) as e:
                 logger.info(f"Connection to game lost, reconnecting...")
@@ -398,6 +398,10 @@ class KHDDDSocket():
         if convertDp:
             num_storing = float(msg[1]) * self.client.DP_CONVERSION_RATE
         self.client.client_sent_energy(num_storing)
+
+    def depositing_item_energy(self, msg):
+        refill = self.client.DROP_ITEM_REFILL[int(msg[1])]
+        self.client.client_sent_energy(refill * self.client.MAX_DROP_GAUGE * self.client.ENERGY_CONVERSION_RATE)
 
     def send_energy_to_player(self, amt):
         self.send(MessageType.RequestingEnergy, [amt/self.client.ENERGY_CONVERSION_RATE])

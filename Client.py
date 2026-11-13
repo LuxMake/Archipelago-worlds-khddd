@@ -165,7 +165,18 @@ class KHDDDContext(SuperContext):
             asyncio.create_task(self.send_slot_data(), name="KHDDDSendSlotData")
             self.locations_checked = set(args['checked_locations'])
             self.send_room()
-        
+            self.energy_link = bool(self.slot_data_info.get("drop_energy_link"))
+            asyncio.create_task(self.update_energy_link(self.energy_link), name="KHDDDEnergyLinkTag")
+            if self.energy_link:
+                self.set_notify(self.energy_link_key)
+                if self.ui:
+                    self.ui.enable_energy_link()
+
+        if cmd in {"Retrieved"} and self.energy_link_key in args["keys"]:
+            self.current_energy_link_value = args["keys"][self.energy_link_key] or 0
+            if self.ui:
+                self.ui.set_new_energy_link_value()
+
         if cmd in {"ReceivedItems"}:
             self.scout_obtained_boards()
             if len(args["items"]) > 0:
@@ -182,9 +193,11 @@ class KHDDDContext(SuperContext):
                 self.locations_checked |= new_locations
 
         if cmd in {"SetReply"}:
-            if args["key"] == "EnergyLink0" and args["slot"] == self.slot: #Response from energy link
-                #logger.info("Requested energy link")
+            if args["key"] == self.energy_link_key and args["slot"] == self.slot: #Response from energy link
                 amt_got = args["original_value"] - args["value"]
+                if amt_got < 0:  # Reply to our own deposit
+                    return
+                logger.info("Requested energy link")
                 if amt_got == 0:
                     logger.info("Not enough energy! Collect DP to earn more.")
                     return
@@ -325,15 +338,27 @@ class KHDDDContext(SuperContext):
 
     ##TODO: Need to figure out a good conversion rate from joules to drop meter
 
-    # Max Drop Gauge Value is 72000
-    # Drop gauge value is a 4 byte float
+    MAX_DROP_GAUGE = 72000  # 4 byte float in game
     DP_CONVERSION_RATE = 2000000
     ENERGY_CONVERSION_RATE = 1000  # Should be 1:1000
+    # Fraction of MAX_DROP_GAUGE, the same as the game's refill for each item
+    DROP_ITEM_REFILL = {item_table["Drop-Me-Not"]: 0.5, item_table["Drop-Me-Never"]: 1.0}
+
+    @property
+    def energy_link_key(self) -> str:
+        return f"EnergyLink{self.team}"
+
+    async def update_energy_link(self, energy_link: bool):
+        logger.info(f"Updating Energy Link to {energy_link}")
+        if energy_link == ("EnergyLink" in self.tags):
+            return
+        self.tags = type(self.tags)(set(self.tags) ^ {"EnergyLink"})
+        await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
 
     def client_requested_energy(self, amt: float):
         asyncio.create_task(self.send_msgs([{
             "cmd": "Set",
-            "key": "EnergyLink0",
+            "key": self.energy_link_key,
             "default": 0,
             "want_reply": True,
             "operations": [
@@ -346,10 +371,10 @@ class KHDDDContext(SuperContext):
     def client_sent_energy(self, amt: float):
         asyncio.create_task(self.send_msgs([{
             "cmd": "Set",
-            "key": "EnergyLink0",
+            "key": self.energy_link_key,
             "tag": "<per-message uuid>",
             "default": 0,
-            "want_reply": True,
+            "want_reply": False,  # A reply would reach the SetReply handler as a negative withdrawal
             "operations": [
                 {"operation": "add", "value": amt},
             ]

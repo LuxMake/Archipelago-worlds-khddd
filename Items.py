@@ -653,6 +653,23 @@ item_data_table: Dict[str, KHDDDItemData] = {
     ),
 
     ############################################
+    ###############Energy Link##################
+    ############################################
+    #Only in the pool with Energy Link; the client banks their refill on pickup
+    "Drop-Me-Not": KHDDDItemData(
+        category="Energy",
+        code=264_1024,
+        type=ItemClassification.useful,
+        qty = 10
+    ),
+    "Drop-Me-Never": KHDDDItemData(
+        category="Energy",
+        code=264_1025,
+        type=ItemClassification.useful,
+        qty = 5
+    ),
+
+    ############################################
     ###############Misc Items###################
     ############################################
     #"Archipelago Dream": KHDDDItemData(            #Planned to be used later as a custom dream piece for spirit crafting

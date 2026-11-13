@@ -238,6 +238,15 @@ class KHDDDWorld(World):
         emblems_to_create = self.verify_emblems()
         item_pool += [self.create_item("Lucky Emblem") for _ in range(0, emblems_to_create)]
 
+        if self.options.drop_energy_link:
+            energy_items = [name for name, data in get_items_by_category("Energy").items() for _ in range(data.qty)]
+            #Levels past the cap take only filler, so energy items get only the filler slots those leave
+            probe = self.create_item(energy_items[0])
+            filler_only = sum(not location.item_rule(probe) for location in self.multiworld.get_unfilled_locations(self.player))
+            filler = sum(item.classification == ItemClassification.filler for item in item_pool)
+            room = total_locations - len(item_pool) + filler - filler_only
+            item_pool += [self.create_item(name) for name in energy_items[:max(0, room)]]
+
         #Fill empty locations with filler
         while len(item_pool) < total_locations:
             item_pool.append(self.create_item(self.get_filler_item_name()))
