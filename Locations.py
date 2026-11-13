@@ -1876,31 +1876,31 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650522
     ),
     "The Grid Solar Sailer Panacea [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650523
     ),
     "The Grid Solar Sailer Troubling Fancy [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650524
     ),
     "The Grid Solar Sailer Wondrous Figment [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650525
     ),
     "The Grid Solar Sailer Paint Gun: White [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650526
     ),
     "The Grid Solar Sailer Hi-Potion [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650527
     ),
     "The Grid Solar Sailer Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650528
     ),
     "The Grid Solar Sailer Candy Goggles [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650529
     ),
     "Traverse Town Garden Drop-Me-Not [Riku]": KHDDDLocationData(
@@ -1936,11 +1936,11 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650537,
     ),
     "The Grid Solar Sailer Shield Cookie 2 [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650538,
     ),
     "The Grid Solar Sailer Royal Cake [Riku]": KHDDDLocationData(
-        region="The Grid [Riku]",
+        region="The Grid Solar Sailer [Riku]",
         code=2650539,
     ),
     "Traverse Town Fountain Plaza Blizzard Edge [Riku]": KHDDDLocationData(
@@ -2020,35 +2020,35 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650558,
     ),
     "Country of the Musketeers Machine Room Blizzaga [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650559,
     ),
     "Country of the Musketeers Machine Room Ducky Goose Recipe [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650560,
     ),
     "Country of the Musketeers Machine Room Ice Dream Cone 2 [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650561,
     ),
     "Country of the Musketeers Machine Room Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650562,
     ),
     "Country of the Musketeers Backstage Royal Cake [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650563,
     ),
     "Country of the Musketeers Backstage Fleeting Fantasy [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650564,
     ),
     "Country of the Musketeers Backstage Dream Candy [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650565,
     ),
     "Country of the Musketeers Backstage Staggerceps Recipe [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650566,
     ),
     "Symphony of Sorcery Moonlight Wood Zero Graviza [Riku]": KHDDDLocationData(
@@ -2336,7 +2336,7 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650637,
     ),
     "Country of the Musketeers Machine Room Hi-Potion [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650638,
     ),
     "Country of the Musketeers Machine Room Mega-Potion [Riku]": KHDDDLocationData(
@@ -2344,11 +2344,11 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650639,
     ),
     "Country of the Musketeers Backstage Drop-Me-Not [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650640,
     ),
     "Country of the Musketeers Backstage Mega-Potion [Riku]": KHDDDLocationData(
-        region="Country of the Musketeers Green Room [Riku]",
+        region="Country of the Musketeers [Riku]",
         code=2650641,
     ),
     "The World That Never Was Fact Within Fiction Balloon [Riku]": KHDDDLocationData(

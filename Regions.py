@@ -58,8 +58,9 @@ def set_region_table():
 
         "Traverse Town [Riku]": KHDDDRegionData([],["Traverse Town 2 [Riku]"]),
         "La Cite des Cloches [Riku]": KHDDDRegionData([],[]),
-        "The Grid [Riku]": KHDDDRegionData([],["The Grid City [Riku]"]),
+        "The Grid [Riku]": KHDDDRegionData([],["The Grid City [Riku]", "The Grid Solar Sailer [Riku]"]),
         "The Grid City [Riku]": KHDDDRegionData([],[]),
+        "The Grid Solar Sailer [Riku]": KHDDDRegionData([],[]),
         "Prankster's Paradise [Riku]": KHDDDRegionData([],[]),
         "Country of the Musketeers [Riku]": KHDDDRegionData([],["Country of the Musketeers Green Room [Riku]"]),
         "Country of the Musketeers Green Room [Riku]": KHDDDRegionData([],[]),
@@ -170,6 +171,8 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
         multiworld.get_region("The Grid [Riku]", player))
     multiworld.get_entrance("The Grid City [Riku]", player).connect(
         multiworld.get_region("The Grid City [Riku]", player))
+    multiworld.get_entrance("The Grid Solar Sailer [Riku]", player).connect(
+        multiworld.get_region("The Grid Solar Sailer [Riku]", player))
     multiworld.get_entrance("Prankster's Paradise [Riku]", player).connect(
         multiworld.get_region("Prankster's Paradise [Riku]", player))
     multiworld.get_entrance("Country of the Musketeers [Riku]", player).connect(
