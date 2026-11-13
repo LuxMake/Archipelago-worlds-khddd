@@ -223,7 +223,7 @@ class KHDDDWorld(World):
 
         self.multiworld.itempool += item_pool
 
-        #UT's item panel draws only pool items, and its fake generation never fills the pool
+        #UT re-gen: put items that were collected on start into the fake item pool so they show up on tracker
         if getattr(self.multiworld, "generation_is_fake", False):
             self.multiworld.itempool += [self.create_item(item.name)
                                          for item in self.multiworld.precollected_items[self.player]]
