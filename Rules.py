@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Callable, TYPE_CHECKING, Any, override
 
 from BaseClasses import CollectionState
@@ -5,9 +6,11 @@ from worlds.generic.Rules import add_rule, add_item_rule
 from BaseClasses import ItemClassification
 
 from .Locations import KHDDDLocation, location_name_groups, gate_thresholds
-from .Items import get_items_by_category, SPIRITLIST, get_spirit_by_id
+from .Items import get_items_by_category, SPIRITLIST, get_spirit_by_id, get_recipes_by_style
+from .Options import GlitchedLogic, SlideDashLogic, RikuLinksLogic
 
-from rule_builder.rules import Rule, True_, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
+from rule_builder.rules import Rule, True_, False_, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
+from rule_builder.field_resolvers import FromOption
 
 if TYPE_CHECKING:
     from . import KHDDDWorld
@@ -15,6 +18,14 @@ if TYPE_CHECKING:
 SORA_WORLDS = ["Traverse Town [Sora]", "La Cite des Cloches [Sora]", "The Grid [Sora]", "Prankster's Paradise [Sora]", "Country of the Musketeers [Sora]", "Symphony of Sorcery [Sora]"]
 RIKU_WORLDS = ["Traverse Town [Riku]", "La Cite des Cloches [Riku]", "The Grid [Riku]", "Prankster's Paradise [Riku]", "Country of the Musketeers [Riku]", "Symphony of Sorcery [Riku]"]
 
+def option_glitched() -> Rule[Any]:
+    return FromOption(GlitchedLogic)
+
+def option_slidedash() -> Rule[Any]:
+    return FromOption(SlideDashLogic)
+
+def option_riku_links() -> Rule[Any]:
+    return FromOption(RikuLinksLogic)
 
 def has_x_sora_worlds(num_of_worlds: int) -> Rule[Any]:
     return HasFromListUnique(*SORA_WORLDS, count=num_of_worlds)
@@ -67,6 +78,11 @@ def has_required_recipes(num_of_recipes: int) -> Rule[Any]:
 def has_macguffins(num_of_recipes) -> Rule[Any]:
     return HasAll("Meow Wow Recipe", "Komory Bat Recipe", "Recusant Sigil") & has_required_recipes(num_of_recipes)
 
+def has_rising_wing() -> Rule[Any]: # I know this is only *mostly* right, but it's a start.
+    aqua = get_recipes_by_style("Aqua").keys()
+    link = [name for style in ("Aqua", "Dark", "Physical", "Fire") for name in get_recipes_by_style(style)]
+    return option_riku_links() & HasAny(*aqua) & HasFromListUnique(*link, count=2)
+
 def can_infinite_jump() -> Rule[Any]:
     return HasAll("Wall Kick", "Super Jump") | Has("Flowmotion")
 
@@ -75,6 +91,15 @@ def can_glide() -> Rule[Any]:
 
 def can_pole_jump() -> Rule[Any]:
     return HasAll("Pole Swing", "Super Jump", "Air Slide") | HasAll("Flowmotion", "Air Slide")
+
+def can_sliding_dash() -> Rule[Any]:
+    return option_slidedash() & HasAny("Sliding Dash", "Thunder Dash")
+
+def has_vertical_mobility() -> Rule[Any]:
+    return HasAny("High Jump", "Flowmotion") | can_infinite_jump()
+
+def has_horizontal_mobility() -> Rule[Any]:
+    return HasAny("Air Slide", "Flowmotion") | can_sliding_dash() | can_infinite_jump()
 
 #Region-specific helpers
 def post_office_access() -> Rule[Any]:
