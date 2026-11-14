@@ -1060,11 +1060,11 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650319
     ),
     "Traverse Town Post Office Rampant Fantasy [Sora]": KHDDDLocationData(
-        region="Traverse Town Plaza [Sora]",
+        region="Traverse Town [Sora]",
         code=2650320
     ),
     "Traverse Town Post Office Vibrant Fantasy [Sora]": KHDDDLocationData(
-        region="Traverse Town Plaza [Sora]",
+        region="Traverse Town [Sora]",
         code=2650321
     ),
     "Traverse Town Post Office Troubling Fantasy [Sora]": KHDDDLocationData(
@@ -1080,11 +1080,11 @@ location_data_table: Dict[str, KHDDDLocationData] = {
         code=2650324
     ),
     "Traverse Town Post Office Potion [Sora]": KHDDDLocationData(
-        region="Traverse Town Plaza [Sora]",
+        region="Traverse Town [Sora]",
         code=2650325
     ),
     "Traverse Town Post Office Ice Dream Cone [Sora]": KHDDDLocationData(
-        region="Traverse Town Plaza [Sora]",
+        region="Traverse Town [Sora]",
         code=2650326
     ),
     "Country of the Musketeers The Opera Drop-Me-Not [Sora]": KHDDDLocationData(
