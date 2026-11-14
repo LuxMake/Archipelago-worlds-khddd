@@ -275,22 +275,22 @@ def set_rules(khdddworld):
         ###################################
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Xemnas Bonus Slot 1 [Sora]"),
                  (can_infinite_jump() | (Has("High Jump")
-                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion")))
+                        & ((Has("Air Slide") | can_glide()))) | (Has("Flowmotion")))
                  & has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Glossary: Recusant's Sigil Reward [Sora]"),
                  (can_infinite_jump() | (Has("High Jump")
-                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion")))
+                        & ((Has("Air Slide") | can_glide()))) | (Has("Flowmotion")))
                  & has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Glossary: Hearts Tied to Sora Reward [Sora]"),
                  (can_infinite_jump() | (Has("High Jump")
-                        & (HasAny("Air Slide", "Glide"))) | (Has("Flowmotion")))
+                        & ((Has("Air Slide") | can_glide()))) | (Has("Flowmotion")))
                  & has_macguffins(options.recipe_reqs.value) & (HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Contorted City Ice Dream Cone 3 [Sora]"),
                  (can_infinite_jump() | (Has("Flowmotion"))
-                        | (Has("High Jump") & (HasAny("Air Slide", "Glide")))))
+                        | (Has("High Jump") & ((Has("Air Slide") | can_glide())))))
 
         khdddworld.set_rule(khdddworld.get_location("The World That Never Was Cleared [Sora]"),
                             CanReachLocation("The World That Never Was Xemnas Bonus Slot 1 [Sora]"))
