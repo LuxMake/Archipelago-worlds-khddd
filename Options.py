@@ -383,6 +383,7 @@ class GlitchedLogic(Toggle):
     It doesn't exist yet
     """
     display_name = "Glitched Logic (WIP)"
+    default = False
 
 class SlideDashLogic(Toggle):
     """
@@ -391,6 +392,7 @@ class SlideDashLogic(Toggle):
     or Thunder Dash to access a chest
     """
     display_name = "Slide Dash Logic (WIP)"
+    default = False
 
 class RikuLinksLogic(Toggle):
     """
@@ -399,6 +401,7 @@ class RikuLinksLogic(Toggle):
     Rising Wing to reach chests
     """
     display_name = "Rising Wing (Riku Link) Logic (WIP)"
+    default = False
 
 @dataclass
 class KHDDDOptions(PerGameCommonOptions):
@@ -459,5 +462,5 @@ khddd_option_groups: list[OptionGroup] = [
         KeybladeMaxMagic, InstantDropTrapChance, SingleFlowmotion, ReceivedItemNotifications,
         SentItemNotifications,
     ]),
-    OptionGroup("Logic", [KHDDDGlitchedLogic, KHDDDSlideDashLogic, KHDDDRikuLinksLogic]),
+    OptionGroup("Logic", [GlitchedLogic, SlideDashLogic, RikuLinksLogic]),
 ]
