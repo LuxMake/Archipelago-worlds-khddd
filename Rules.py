@@ -10,7 +10,7 @@ from .Items import get_items_by_category, SPIRITLIST, get_spirit_by_id, get_reci
 from .Options import GlitchedLogic, SlideDashLogic, RikuLinksLogic
 
 from rule_builder.rules import Rule, True_, False_, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
-from rule_builder.field_resolvers import FromOption
+from rule_builder.options import OptionFilter
 
 if TYPE_CHECKING:
     from . import KHDDDWorld
@@ -18,14 +18,9 @@ if TYPE_CHECKING:
 SORA_WORLDS = ["Traverse Town [Sora]", "La Cite des Cloches [Sora]", "The Grid [Sora]", "Prankster's Paradise [Sora]", "Country of the Musketeers [Sora]", "Symphony of Sorcery [Sora]"]
 RIKU_WORLDS = ["Traverse Town [Riku]", "La Cite des Cloches [Riku]", "The Grid [Riku]", "Prankster's Paradise [Riku]", "Country of the Musketeers [Riku]", "Symphony of Sorcery [Riku]"]
 
-def option_glitched() -> Rule[Any]:
-    return FromOption(GlitchedLogic)
-
-def option_slidedash() -> Rule[Any]:
-    return FromOption(SlideDashLogic)
-
-def option_riku_links() -> Rule[Any]:
-    return FromOption(RikuLinksLogic)
+option_glitched = [OptionFilter(GlitchedLogic, GlitchedLogic.option_true)]
+option_slidedash = [OptionFilter(SlideDashLogic, SlideDashLogic.option_true)]
+option_riku_links = [OptionFilter(RikuLinksLogic, RikuLinksLogic.option_true)]
 
 def has_x_sora_worlds(num_of_worlds: int) -> Rule[Any]:
     return HasFromListUnique(*SORA_WORLDS, count=num_of_worlds)
@@ -81,7 +76,7 @@ def has_macguffins(num_of_recipes) -> Rule[Any]:
 def has_rising_wing() -> Rule[Any]: # I know this is only *mostly* right, but it's a start.
     aqua = get_recipes_by_style("Aqua").keys()
     link = [name for style in ("Aqua", "Dark", "Physical", "Fire") for name in get_recipes_by_style(style)]
-    return option_riku_links() & HasAny(*aqua) & HasFromListUnique(*link, count=2)
+    return option_riku_links & HasAny(*aqua) & HasFromListUnique(*link, count=2)
 
 def can_infinite_jump() -> Rule[Any]:
     return HasAll("Wall Kick", "Super Jump") | Has("Flowmotion")
@@ -93,7 +88,7 @@ def can_pole_jump() -> Rule[Any]:
     return HasAll("Pole Swing", "Super Jump", "Air Slide") | HasAll("Flowmotion", "Air Slide")
 
 def can_sliding_dash() -> Rule[Any]:
-    return option_slidedash() & HasAny("Sliding Dash", "Thunder Dash")
+    return option_slidedash & HasAny("Sliding Dash", "Thunder Dash")
 
 def has_vertical_mobility() -> Rule[Any]:
     return HasAny("High Jump", "Flowmotion") | can_infinite_jump()
