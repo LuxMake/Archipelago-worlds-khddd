@@ -335,10 +335,11 @@ class KHDDDContext(SuperContext):
 
     ##TODO: Need to figure out a good conversion rate from joules to drop meter
 
-    # Max Drop Gauge Value is 72000
-    # Drop gauge value is a 4 byte float
+    MAX_DROP_GAUGE = 72000  # 4 byte float in game
     DP_CONVERSION_RATE = 2000000
     ENERGY_CONVERSION_RATE = 1000  # Should be 1:1000
+    # Fraction of MAX_DROP_GAUGE, the same as the game's refill for each item
+    DROP_ITEM_REFILL = {item_table["Drop-Me-Not"]: 0.5, item_table["Drop-Me-Never"]: 1.0}
 
     @property
     def energy_link_key(self) -> str:
@@ -371,7 +372,7 @@ class KHDDDContext(SuperContext):
             "key": self.energy_link_key,
             "tag": "<per-message uuid>",
             "default": 0,
-            "want_reply": True,
+            "want_reply": False,  # A reply would reach the SetReply handler as a negative withdrawal
             "operations": [
                 {"operation": "add", "value": amt},
             ]
