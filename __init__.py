@@ -443,7 +443,8 @@ class KHDDDWorld(World):
         #For UT re-gen; the rolled recipe pool and gates come from gate_reqs instead
         slot_data["options"] = self.options.as_dict("character", "goal", "armored_ventus_nightmare", "emblem_reqs", "recipe_reqs",
                                                     "superbosses", "lord_kyroo", "play_destiny_islands", "stats_on_levels",
-                                                    "single_flowmotion", "super_jump_start")
+                                                    "single_flowmotion", "super_jump_start", "glitched", "slidedash",
+                                                    "riku_links")
         slot_data["starting_worlds"] = self.starting_worlds
 
         return slot_data
