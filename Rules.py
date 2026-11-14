@@ -4,7 +4,7 @@ from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, add_item_rule
 from BaseClasses import ItemClassification
 
-from .Locations import KHDDDLocation, location_data_table, location_name_groups, gate_thresholds
+from .Locations import KHDDDLocation, location_name_groups, gate_thresholds
 from .Items import get_items_by_category, SPIRITLIST, get_spirit_by_id
 
 from rule_builder.rules import Rule, True_, HasAny, Has, CanReachLocation, HasAllCounts, HasAll, AtLeast, HasGroupUnique, HasFromListUnique
@@ -146,7 +146,7 @@ def set_rules(khdddworld):
             khdddworld.set_rule(khdddworld.get_location("La Cite des Cloches Secret Portal [Sora]"),
                     has_x_sora_worlds(6))
             khdddworld.set_rule(khdddworld.get_location("The Grid Secret Portal [Sora]"),
-                    has_x_sora_worlds(6) & grid_access_sora())
+                    has_x_sora_worlds(6))
             khdddworld.set_rule(khdddworld.get_location("Prankster's Paradise Secret Portal [Sora]"),
                     has_x_sora_worlds(6))
             khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Secret Portal [Sora]"),
@@ -176,83 +176,15 @@ def set_rules(khdddworld):
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Second District Hi-Potion [Sora]"),
                  Has("High Jump") | can_infinite_jump())
 
-        #Everything in and beyond Sora's Post Office room should require this movement for the player's own sanity
-
-        #####Post Office#####
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Rampant Fantasy [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Vibrant Fantasy [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Troubling Fantasy [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Spark [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Paint Gun: Red [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Potion [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Post Office Ice Dream Cone [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-
         #####Fountain Plaza#####
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Balloon [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Intrepid Figment [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Ice Dream Cone [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Rampant Fantasy [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") & (can_infinite_jump()))
+                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Fountain Plaza Strike Raid [Sora]"),
                  HasAny("Glide", "Superglide", "Flowmotion") | (can_infinite_jump()))
 
-        #####Fourth District#####
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Shield Cookie [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Water Barrel [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Hi-Potion [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Ice Dream Cone [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Potion [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Block-It Chocolate [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District 2nd Potion [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fourth District Balloon (Command) [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-
-        #####Fifth District#####
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fifth District Shield Cookie [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fifth District Potion [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Fifth District Block-It Chocolate [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-
         #####Garden#####
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Garden Royal Cake [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Garden Confetti Candy [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("Traverse Town Garden Rampant Figment [Sora]"), #On the upper ledge
                  HasAny("Rail Slide", "Flowmotion") | (can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Garden Drop-Me-Not [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | (can_infinite_jump()))
-
-
-        #####Story#####
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Hockomonkey Bonus Slot 1 [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Hockomonkey Bonus Slot 2 [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Skull Noise Reward [Sora]"),
-                 HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
-
-        khdddworld.set_rule(khdddworld.get_location("Traverse Town Cleared [Sora]"),
-                            HasAny( "Rail Slide", "Flowmotion") | can_infinite_jump() | can_glide())
 
         ###################################
         ########La Cite des Cloches########
@@ -267,16 +199,10 @@ def set_rules(khdddworld):
         ###################################
         ##############The Grid#############
         ###################################
-        for name, data in location_data_table.items(): #Sora can only reach the first location without tools
-            if data.region == "The Grid [Sora]" and name not in ("The Grid City Potion [Sora]", "The Grid Secret Portal [Sora]"):
-                khdddworld.set_rule(khdddworld.get_location(name), grid_access_sora())
-
         khdddworld.set_rule(khdddworld.get_location("The Grid Throughput Dulcet Figment [Sora]"),
-                grid_access_sora() & (HasAny("High Jump", "Rail Slide", "Flowmotion")
-                | (can_infinite_jump()) | (can_pole_jump())))
+                HasAny("High Jump", "Rail Slide", "Flowmotion") | can_infinite_jump() | can_pole_jump())
         khdddworld.set_rule(khdddworld.get_location("The Grid City Troubling Fancy [Sora]"),
-                    grid_access_sora() & (Has("Flowmotion")
-                    | (can_infinite_jump()) | (HasAny("Glide", "Superglide"))))
+                HasAny("Flowmotion", "Glide", "Superglide") | can_infinite_jump())
 
         ###################################
         ########Prankster's Paradise#######
@@ -408,16 +334,13 @@ def set_rules(khdddworld):
         ###################################
         ##############The Grid#############
         ###################################
-        khdddworld.set_rule(khdddworld.get_location("The Grid City Fleeting Figment [Riku]"),
-                 (HasAny("Flowmotion", "Rail Slide")
-                        | (can_infinite_jump())))
-        khdddworld.set_rule(khdddworld.get_location("The Grid City Drop-Me-Not [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide") | (can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("The Grid City Thundara [Riku]"),
                  (Has("Flowmotion") | (can_infinite_jump())))
         khdddworld.set_rule(khdddworld.get_location("The Grid Throughput Noble Fantasy [Riku]"),
                  (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion")
                          | (can_infinite_jump()) | (can_pole_jump())))
+        khdddworld.set_rule(khdddworld.get_entrance("The Grid Solar Sailer [Riku]"), #Cleared event only exists when Riku is played
+                 CanReachLocation("The Grid Cleared [Riku]"))
 
         ###################################
         ########Prankster's Paradise#######
@@ -433,100 +356,20 @@ def set_rules(khdddworld):
         ###################################
 
         #####Grand Lobby#####
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Shadowbreaker [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight") | can_infinite_jump()))
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Royal Cake [Riku]"),
                             can_infinite_jump() | (HasAny("Double Flight", "Wall Kick", "Rail Slide", "Flowmotion")))
 
-        #####Green Room#####
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Candy Goggles [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Prickly Fantasy [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Fleeting Fantasy [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Shield Cookie 3 [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Hi-Potion [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Stop [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Drop-Me-Not [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Green Room Confetti Candy 3 [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-
-        #####Machine Room#####
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Blizzaga [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
+        #####Machine Room Upper#####
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Ducky Goose Recipe [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
+                 HasAny("Double Flight", "Flowmotion") | can_infinite_jump())
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Ice Dream Cone 2 [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Drop-Me-Not [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Hi-Potion [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Machine Room Mega-Potion [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
+                 HasAny("Double Flight", "Flowmotion") | can_infinite_jump())
 
         #####Backstage#####
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Royal Cake [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump()))
+                 HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump())
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Fleeting Fantasy [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Dream Candy [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Staggerceps Recipe [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Drop-Me-Not [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Backstage Mega-Potion [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-
-        #####Story#####
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Flashback: Bon Journey Reward [Riku]"),
-                 HasAny("Pole Spin", "Flowmotion")
-                        & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Stage Gadget Reward [Riku]"),
-                            HasAny("Pole Spin", "Flowmotion")
-                            & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Holey Moley Bonus Slot 1 [Riku]"),
-                            HasAny("Pole Spin", "Flowmotion")
-                            & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Shadow Strike Reward [Riku]"),
-                            HasAny("Pole Spin", "Flowmotion")
-                            & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Shadow Slide Reward [Riku]"),
-                            HasAny("Pole Spin", "Flowmotion")
-                            & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers All For One Reward [Riku]"),
-                            HasAny("Pole Spin", "Flowmotion")
-                            & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
-
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Cleared [Riku]"),
-                            HasAny("Pole Spin", "Flowmotion") & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
+                 HasAny("Double Flight", "Flowmotion") | can_infinite_jump())
 
         ###################################
         ########Symphony of Sorcery########
@@ -545,54 +388,8 @@ def set_rules(khdddworld):
                      HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
 
         #####Golden Wood#####
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Golden Wood Elixir [Riku]"),
-                 HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Golden Wood Intrepid Fantasy [Riku]"),
-                 HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Golden Wood Mega-Potion [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                               & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Golden Wood Paint Gun: Red [Riku]"),
-                 HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Golden Wood Ryu Dragon Recipe [Riku]"),
-                 HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
-
-        #####Snowgleam Wood#####
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Ice Barrage [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                               & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Candy Goggles [Riku]"),
-                            HasAny("Flowmotion", "Rail Slide")
-                            & (HasAny("High Jump", "Double Flight",
-                                     "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Block-It Chocolate [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Ice Dream Cone 3 [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Dulcet Fancy [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Snowgleam Wood Confetti Candy 3 [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-
-        #####Story#####
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Chernobog Bonus Slot 1 [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Chernobog Bonus Slot 2 [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Counterpoint Reward [Riku]"),
-                 HasAny("Flowmotion", "Rail Slide")
-                 & (HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump()))
-
-        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Cleared [Riku]"),
-                            HasAny("Flowmotion", "Rail Slide")
-                            & (HasAny("High Jump", "Double Flight",
-                                      "Flowmotion") | can_infinite_jump() | can_pole_jump()))
+                 HasAny("Flowmotion", "Rail Slide"))
 
         ###################################
         #####The World That Never Was######
@@ -655,11 +452,11 @@ def set_rules(khdddworld):
                     CanReachLocation("The World That Never Was Young Xehanort Defeated [Riku]") & HasAny("Rail Slide", "Flowmotion"))
 
     if options.goal == 1: #All Superbosses defeated needs a rule here too
-        superbosses_rule = has_required_recipes(options.recipe_reqs.value)
+        superbosses_rule = has_required_recipes(options.recipe_reqs.value) & HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})
         if options.character == 0 or options.character == 1:
             superbosses_rule &= can_access_sora_portals() & tt2_access_sora()
         if options.character == 0 or options.character == 2:
-            superbosses_rule &= can_access_riku_portals() & tt2_access_riku() & HasAllCounts({"Lucky Emblem": options.emblem_reqs.value})
+            superbosses_rule &= can_access_riku_portals() & tt2_access_riku()
         khdddworld.set_rule(khdddworld.get_location("All Superbosses Defeated [Sora] [Riku]"), superbosses_rule)
 
     #Lord Kyroo Completion Access
@@ -703,6 +500,10 @@ def set_rules(khdddworld):
              Has("Symphony of Sorcery [Sora]"))
     khdddworld.set_rule(khdddworld.get_entrance("Traverse Town 2 [Sora]"),
              HasAny("Wall Kick", "Glide", "Superglide", "Rail Slide", "Flowmotion") & (HasAllCounts({"Traverse Town [Sora]":2})))
+    khdddworld.set_rule(khdddworld.get_entrance("Traverse Town Plaza [Sora]"), #Post Office onward; a convenience gate
+             HasAny("Glide", "Rail Slide", "Superglide", "Flowmotion") | can_infinite_jump())
+    khdddworld.set_rule(khdddworld.get_entrance("The Grid Throughput [Sora]"), #Only City Potion is reachable without tools
+             grid_access_sora())
 
     khdddworld.set_rule(khdddworld.get_entrance("Traverse Town [Riku]"),
              Has("Traverse Town [Riku]"))
@@ -720,6 +521,15 @@ def set_rules(khdddworld):
              Has("Symphony of Sorcery [Riku]"))
     khdddworld.set_rule(khdddworld.get_entrance("Traverse Town 2 [Riku]"),
              HasAllCounts({"Traverse Town [Riku]":2}))
+    khdddworld.set_rule(khdddworld.get_entrance("The Grid City [Riku]"),
+             HasAny("Flowmotion", "Rail Slide") | can_infinite_jump())
+    khdddworld.set_rule(khdddworld.get_entrance("Country of the Musketeers Green Room [Riku]"),
+             HasAny("Pole Spin", "Flowmotion")
+             & (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion") | can_infinite_jump()))
+    khdddworld.set_rule(khdddworld.get_entrance("Symphony of Sorcery Golden Wood [Riku]"),
+             HasAny("High Jump", "Double Flight", "Flowmotion") | can_infinite_jump() | can_pole_jump())
+    khdddworld.set_rule(khdddworld.get_entrance("Symphony of Sorcery Snowgleam Wood [Riku]"),
+             HasAny("Flowmotion", "Rail Slide"))
 
     if options.emblem_reqs.value > 0:
         khdddworld.set_rule(khdddworld.get_location("All Lucky Emblems Found [Sora] [Riku]"),
