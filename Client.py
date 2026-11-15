@@ -381,11 +381,13 @@ class KHDDDContext(SuperContext):
         }]))
         logger.info("Stored " + str(amt) + " energy from player.")
 
-    def set_data_storage(self, world, room, character):
+    def set_data_storage(self, world, room, character, spirit_menu="0"):
         try:
-            self.last_room = {"world": int(world), "room": int(room), "character": int(character)}
+            self.last_room = {"world": int(world), "room": int(room), "character": int(character),
+                              "spirit_menu": bool(int(spirit_menu))}
         except (TypeError, ValueError):
-            logger.warning(f"Ignoring malformed room info from game: {world!r}, {room!r}, {character!r}")
+            logger.warning(f"Ignoring malformed room info from game: "
+                           f"{world!r}, {room!r}, {character!r}, {spirit_menu!r}")
             return
         self.send_room()
 
