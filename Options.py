@@ -1,6 +1,6 @@
 #Blank options file; not ready for customization yet
 from dataclasses import dataclass
-from Options import Choice, Toggle, PerGameCommonOptions, StartInventoryPool, NamedRange, Range
+from Options import Choice, Toggle, PerGameCommonOptions, StartInventoryPool, Range, OptionGroup
 
 class StartingWorlds(Range):
     """
@@ -115,14 +115,15 @@ class Superbosses(Toggle):
     Determines whether Secret Portals and Julius  are checks
     This option is ignored if the Goal is Superbosses
     """
+    display_name = "Superbosses"
 
 class LordKyroo(Toggle):
-    display_name = "Lord Kyroo"
     """
     Determines whether fighting Lord Kyroo is needed for checks.
     Each unique location he can be fought grants a check, as well
     as granting an additional check for defeating him.
     """
+    display_name = "Lord Kyroo"
     default = True
 
 class LinkBoardSanity(Toggle):
@@ -372,6 +373,36 @@ class SentItemNotifications(Choice):
     option_display_sent_progressive = 1
     option_display_sent_none = 2
 
+#####################################
+###############Logic#################
+#####################################
+
+class GlitchedLogic(Toggle):
+    """
+    Turn on Glitched Logic
+    It doesn't exist yet
+    """
+    display_name = "Glitched Logic (WIP)"
+    default = False
+
+class SlideDashLogic(Toggle):
+    """
+    Turn on Slide Dash Logic
+    This will require you to use Slide Dash
+    or Thunder Dash to access a chest
+    """
+    display_name = "Slide Dash Logic (WIP)"
+    default = False
+
+class RikuLinksLogic(Toggle):
+    """
+    Turn on Riku's Links for logic
+    This may require you to use
+    Rising Wing to reach chests
+    """
+    display_name = "Rising Wing (Riku Link) Logic (WIP)"
+    default = False
+
 @dataclass
 class KHDDDOptions(PerGameCommonOptions):
     character: Character
@@ -390,6 +421,7 @@ class KHDDDOptions(PerGameCommonOptions):
     play_destiny_islands: PlayDestinyIslands
     skip_light_cycle: SkipLightCycle
     enable_drop_gauge: EnableDropGauge
+    drop_link: DropLink
     drop_energy_link: EnergyLink
     fast_go_mode: FastGoMode
     exp_multiplier: ExpMultiplier
@@ -409,5 +441,26 @@ class KHDDDOptions(PerGameCommonOptions):
     single_flowmotion: SingleFlowmotion
     received_notifications: ReceivedItemNotifications
     sent_notifications: SentItemNotifications
+    glitched: GlitchedLogic
+    slidedash: SlideDashLogic
+    riku_links: RikuLinksLogic
 
     start_inventory_from_pool: StartInventoryPool
+
+khddd_option_groups: list[OptionGroup] = [
+    OptionGroup("Game Options", [
+        Character, Goal, AVN, EmblemsRequired, EmblemsInPool, RecipeReqs, RecipesInPool,
+        MinGateReq, MaxGateReq, StartingWorlds, Superbosses, LordKyroo, LinkBoardSanity,
+        PlayDestinyIslands, SkipLightCycle, EnableDropGauge, DropLink, EnergyLink, FastGoMode,
+    ]),
+    OptionGroup("Quality of Life", [
+        ExpMultiplier, StartWithSuperJump, LevelCap, StatsOnLevels, StatBonusAmount,
+        StrengthInPool, MagicInPool, DefenseInPool,
+    ]),
+    OptionGroup("Extra Features", [
+        RandomizeKeybladeStats, KeybladeMinStrength, KeybladeMaxStrength, KeybladeMinMagic,
+        KeybladeMaxMagic, InstantDropTrapChance, SingleFlowmotion, ReceivedItemNotifications,
+        SentItemNotifications,
+    ]),
+    OptionGroup("Logic", [GlitchedLogic, SlideDashLogic, RikuLinksLogic]),
+]
