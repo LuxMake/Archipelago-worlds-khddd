@@ -182,11 +182,15 @@ class KHDDDContext(SuperContext):
 
         if cmd in {"SetReply"}:
             if args["key"] == "EnergyLink0" and args["slot"] == self.slot: #Response from energy link
-                logger.info("Requested energy link")
+                #logger.info("Requested energy link")
                 amt_got = args["original_value"] - args["value"]
                 if amt_got == 0:
                     logger.info("Not enough energy! Collect DP to earn more.")
                     return
+                elif amt_got < 0:
+                    #logger.info("Depleted energy.")
+                    return
+                logger.info("Sending energy to game.")
                 self.socket.send_energy_to_player(amt_got)
 
 

@@ -60,6 +60,12 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
                     if SPIRITLIST[spirit_name] not in khdddworld.ids_for_gates:
                         continue
 
+            if options.character == 0: #Still have to exclude nodes in duo-character seeds
+                if name.find("Node") > -1:
+                    spirit_name = name[:-8]
+                    if SPIRITLIST[spirit_name] not in khdddworld.ids_for_gates:
+                        continue
+
         # Skip AVN is not needed
         if name.find("Ventus") > -1 and not options.armored_ventus_nightmare or options.goal == 1 and name.find("Ventus") > -1:
             continue

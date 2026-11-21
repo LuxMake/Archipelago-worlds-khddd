@@ -38,7 +38,8 @@ class MessageType(IntEnum):
     #Energy Link
     RequestingEnergy=21, #Game mod wants energy
     SendingEnergy=22, #Game mod is sending energy
-    DropMult=23
+    DropMult=23,
+    DepositingEnergy=24 #Direct deposit from player
 
 class DDDCommand(IntEnum):
     DROP = 0
@@ -255,9 +256,11 @@ class KHDDDSocket():
                 print("Node check failed: "+str(e))
 
         elif msgType == MessageType.SendingEnergy:
-            self.storing_energy(message)
+            self.storing_energy(message, True)
         elif msgType == MessageType.RequestingEnergy:
             self.requesting_energy(message)
+        elif msgType == MessageType.DepositingEnergy:
+            self.storing_energy(message, False)
 
         elif msgType == MessageType.RequestSlotData:
             self.client.get_slot_data()
@@ -390,8 +393,10 @@ class KHDDDSocket():
         self.client.client_requested_energy(num_requested)
 
     #Client mod is storing energy
-    def storing_energy(self, msg):
-        num_storing = float(msg[1]) * self.client.DP_CONVERSION_RATE
+    def storing_energy(self, msg, convertDp):
+        num_storing = float(msg[1]) * self.client.ENERGY_CONVERSION_RATE
+        if convertDp:
+            num_storing = float(msg[1]) * self.client.DP_CONVERSION_RATE
         self.client.client_sent_energy(num_storing)
 
     def send_energy_to_player(self, amt):
