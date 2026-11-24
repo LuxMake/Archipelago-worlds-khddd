@@ -249,20 +249,22 @@ def set_rules(khdddworld):
         ###################################
         #####Country of the Musketeers#####
         ###################################
-        khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Mont Saint-Michel Sparkga [Sora]"),
-                 (can_infinite_jump() | (HasAny("High Jump", "Flowmotion"))))
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Mont Saint-Michel Fleeting Fantasy [Sora]"),
                             can_infinite_jump() | can_glide())
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Dungeon Sonic Blade [Sora]"),
-                            can_infinite_jump() | can_glide())
+                            has_horizontal_mobility() | can_glide())
         khdddworld.set_rule(khdddworld.get_location("Country of the Musketeers Grand Lobby Ice Dream Cone 3 [Sora]"),
                            can_infinite_jump() | can_glide() | HasAny("Wall Kick", "Rail Slide"))
 
         ###################################
         ########Symphony of Sorcery########
         ###################################
+        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Cloudwalk Paint Gun: White [Sora]"),
+                 has_horizontal_mobility() | can_glide() | HasAll("Rail Slide", "Super Jump"))
+        khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Cloudwalk Elixir [Sora]"),
+                 has_horizontal_mobility() | can_glide() | HasAll("Rail Slide", "Super Jump"))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Cloudwalk Candy Goggles [Sora]"),
-                 Has("Wall Kick") | can_glide())
+                 Has("Wall Kick") | can_glide() | HasAll("Rail Slide", "Super Jump"))
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Glen Royal Cake [Sora]"),
                  Has("Wall Kick") | can_glide())
         khdddworld.set_rule(khdddworld.get_location("Symphony of Sorcery Glen Intrepid Fantasy [Sora]"),
@@ -363,13 +365,13 @@ def set_rules(khdddworld):
         ##############The Grid#############
         ###################################
         khdddworld.set_rule(khdddworld.get_location("The Grid City Thundara [Riku]"),
-                 (Has("Flowmotion") | (can_infinite_jump())))
+                 can_infinite_jump() | has_rising_wing() | (option_glitched & Has("Super Jump") & HasAny("Rail Slide", "Pole Swing")))
         khdddworld.set_rule(khdddworld.get_location("The Grid Throughput Noble Fantasy [Riku]"),
                  (HasAny("High Jump", "Double Flight", "Rail Slide", "Flowmotion")
                          | (can_infinite_jump()) | (can_pole_jump())))
         khdddworld.set_rule(khdddworld.get_entrance("The Grid Solar Sailer [Riku]"), #Cleared event only exists when Riku is played
                  CanReachLocation("The Grid Cleared [Riku]"))
-        khdddworld.set_rule(khdddworld.get_location("The Grid Solar Sailer Panacea [Riku]"),
+        khdddworld.set_rule(khdddworld.get_location("The Grid Solar Sailer Troubling Fancy [Riku]"),
                  Has("Double Flight") | has_vertical_mobility() | has_horizontal_mobility())
         khdddworld.set_rule(khdddworld.get_location("The Grid Solar Sailer Candy Goggles [Riku]"),
                  Has("Double Flight") | has_vertical_mobility() | has_horizontal_mobility())
