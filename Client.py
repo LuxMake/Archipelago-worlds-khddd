@@ -194,10 +194,8 @@ class KHDDDContext(SuperContext):
 
         if cmd in {"SetReply"}:
             if args["key"] == self.energy_link_key and args["slot"] == self.slot: #Response from energy link
+                #logger.info("Requested energy link")
                 amt_got = args["original_value"] - args["value"]
-                if amt_got < 0:  # Reply to our own deposit
-                    return
-                logger.info("Requested energy link")
                 if amt_got == 0:
                     logger.info("Not enough energy! Collect DP to earn more.")
                     return
@@ -338,11 +336,10 @@ class KHDDDContext(SuperContext):
 
     ##TODO: Need to figure out a good conversion rate from joules to drop meter
 
-    MAX_DROP_GAUGE = 72000  # 4 byte float in game
+    # Max Drop Gauge Value is 72000
+    # Drop gauge value is a 4 byte float
     DP_CONVERSION_RATE = 2000000
     ENERGY_CONVERSION_RATE = 1000  # Should be 1:1000
-    # Fraction of MAX_DROP_GAUGE, the same as the game's refill for each item
-    DROP_ITEM_REFILL = {item_table["Drop-Me-Not"]: 0.5, item_table["Drop-Me-Never"]: 1.0}
 
     @property
     def energy_link_key(self) -> str:
