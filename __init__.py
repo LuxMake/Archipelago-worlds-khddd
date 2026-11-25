@@ -53,7 +53,6 @@ def map_page_index(room: Any) -> int:
 
 UT_WORLDS = ["Traverse Town", "La Cite des Cloches", "The Grid", "Prankster's Paradise",
              "Country of the Musketeers", "Symphony of Sorcery", "The World That Never Was"]
-#UT draws only items in the item pool, so starting worlds and a starting Super Jump are left out
 UT_ITEM_LAYOUTS = [
     {"name": "Sora Worlds", "items": [f"{world} [Sora]" for world in UT_WORLDS], "cols": 4},
     {"name": "Riku Worlds", "items": [f"{world} [Riku]" for world in UT_WORLDS], "cols": 4},
@@ -80,7 +79,28 @@ class KHDDDWorld(World):
     tracker_world: ClassVar[dict[str, Any]] = {
         "external_pack_key": "ut_poptracker_pack",
         "map_page_maps": "maps/ut_maps.json", #maps.json with a Link Boards image that has the names drawn in
-        "map_page_locations": "locations/locations.json",
+        "map_page_locations": [ #the pack's init.lua load order
+            "locations/destiny_islands.json",
+            "locations/sora/traverse_town.json",
+            "locations/sora/la_cite_des_cloches.json",
+            "locations/sora/the_grid.json",
+            "locations/sora/pranksters_paradise.json",
+            "locations/sora/country_of_the_musketeers.json",
+            "locations/sora/symphony_of_sorcery.json",
+            "locations/sora/the_world_that_never_was.json",
+            "locations/sora/world_map.json",
+            "locations/riku/traverse_town.json",
+            "locations/riku/la_cite_des_cloches.json",
+            "locations/riku/the_grid.json",
+            "locations/riku/pranksters_paradise.json",
+            "locations/riku/country_of_the_musketeers.json",
+            "locations/riku/symphony_of_sorcery.json",
+            "locations/riku/the_world_that_never_was.json",
+            "locations/riku/world_map.json",
+            "locations/levels.json",
+            "locations/link_boards.json",
+            "locations/overworld.json",
+        ],
         "map_page_setting_key": "khddd_{team}_{player}_room",
         "map_page_index": map_page_index,
         "item_page_items": "items/items.json",
@@ -218,11 +238,25 @@ class KHDDDWorld(World):
         emblems_to_create = self.verify_emblems()
         item_pool += [self.create_item("Lucky Emblem") for _ in range(0, emblems_to_create)]
 
+        if self.options.drop_energy_link:
+            energy_items = [name for name, data in get_items_by_category("Energy").items() for _ in range(data.qty)]
+            #Levels past the cap take only filler, so energy items get only the filler slots those leave
+            probe = self.create_item(energy_items[0])
+            filler_only = sum(not location.item_rule(probe) for location in self.multiworld.get_unfilled_locations(self.player))
+            filler = sum(item.classification == ItemClassification.filler for item in item_pool)
+            room = total_locations - len(item_pool) + filler - filler_only
+            item_pool += [self.create_item(name) for name in energy_items[:max(0, room)]]
+
         #Fill empty locations with filler
         while len(item_pool) < total_locations:
             item_pool.append(self.create_item(self.get_filler_item_name()))
 
         self.multiworld.itempool += item_pool
+
+        #UT re-gen: put items that were collected on start into the fake item pool so they show up on tracker
+        if getattr(self.multiworld, "generation_is_fake", False):
+            self.multiworld.itempool += [self.create_item(item.name)
+                                         for item in self.multiworld.precollected_items[self.player]]
 
     def determine_starting_worlds(self):
         #Starting Worlds
@@ -439,7 +473,8 @@ class KHDDDWorld(World):
         #For UT re-gen; the rolled recipe pool and gates come from gate_reqs instead
         slot_data["options"] = self.options.as_dict("character", "goal", "armored_ventus_nightmare", "emblem_reqs", "recipe_reqs",
                                                     "superbosses", "lord_kyroo", "play_destiny_islands", "stats_on_levels",
-                                                    "single_flowmotion", "super_jump_start")
+                                                    "single_flowmotion", "super_jump_start", "glitched", "slidedash",
+                                                    "riku_links")
         slot_data["starting_worlds"] = self.starting_worlds
 
         return slot_data

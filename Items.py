@@ -11,6 +11,7 @@ class KHDDDItem(Item):
 
 class KHDDDItemData(NamedTuple):
     category:str
+    style: Optional[str] = None # if recipe - physical/dark/aqua/etc
     code: Optional[int] = None
     type: ItemClassification = ItemClassification.filler
     qty: Optional[int] = 1
@@ -37,6 +38,13 @@ def get_item_category(item_id:int):
         if data.code == item_id:
             return data.category
     return "None"
+
+def get_recipes_by_style(style: str) -> Dict[str, KHDDDItemData]:
+    item_dict: Dict[str, KHDDDItemData] = {}
+    for name, data in item_data_table.items():
+        if data.category == "Recipe" and data.style == style:
+            item_dict.setdefault(name, data)
+    return item_dict
 
 item_data_table: Dict[str, KHDDDItemData] = {
     "Potion": KHDDDItemData(
@@ -267,327 +275,398 @@ item_data_table: Dict[str, KHDDDItemData] = {
     ############################################
     "Meow Wow Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1001,
         type=ItemClassification.progression_skip_balancing, # MacGuffin
         qty = 1
     ),
     "Tama Sheep Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1002,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Yoggy Ram Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1003,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Komory Bat Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1004,
         type=ItemClassification.progression_skip_balancing, # MacGuffin
         qty = 1
     ),
     "Pricklemane Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1005,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Hebby Repp Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1006,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Sir Kyroo Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1007,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Toximander Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1008,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Fin Fatale Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1009,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Tatsu Steed Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1010,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Necho Cat Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1011,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Thunderaffe Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1012,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Kooma Panda Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1013,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Pegaslick Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1014,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Iceguin Ace Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1015,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Peepsta Hoo Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1016,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Escarglow Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1017,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "KO Kabuto Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1018,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Wheeflower Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1019,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Ghostabocky Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1020,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Zolephant Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1021,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Juggle Pup Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1022,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Halbird Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1023,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Staggerceps Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1024,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Fishbone Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1025,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Flowbermeow Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1026,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Cyber Yog Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1027,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Chef Kyroo Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1028,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Lord Kyroo Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1029,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Tatsu Blaze Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1030,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Electricorn Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1031,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Woeflower Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1032,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Jestabocky Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1033,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Eaglider Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1034,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Me Me Bunny Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1035,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Drill Sye Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1036,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Tyranto Rex Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1037,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Majik Lapin Recipe": KHDDDItemData(
         category="Recipe",
+        style="Lightning",
         code=270_1038,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Cera Terror Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1039,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Skelterwild Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1040,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Ducky Goose Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1041,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Aura Lion Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1042,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Ryu Dragon Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1043,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Drak Quack Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1044,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Keeba Tiger Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1045,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Meowjesty Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1046,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Sudo Neku Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1047,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Frootz Cat Recipe": KHDDDItemData(
         category="Recipe",
+        style="Dark",
         code=270_1048,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Ursa Circus Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1049,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Kab Kannon Recipe": KHDDDItemData(
         category="Recipe",
+        style="Fire",
         code=270_1050,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "R & R Seal Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1051,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Catanuki Recipe": KHDDDItemData(
         category="Recipe",
+        style="Physical",
         code=270_1052,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Beatalike Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1053,
         type=ItemClassification.progression_deprioritized,
         qty = 1
     ),
     "Tubguin Ace Recipe": KHDDDItemData(
         category="Recipe",
+        style="Aqua",
         code=270_1054,
         type=ItemClassification.progression_deprioritized,
         qty = 1
+    ),
+
+    ############################################
+    ###############Energy Link##################
+    ############################################
+    #Only in the pool with Energy Link; the client banks their refill on pickup
+    "Drop-Me-Not": KHDDDItemData(
+        category="Energy",
+        code=264_1024,
+        type=ItemClassification.useful,
+        qty = 10
+    ),
+    "Drop-Me-Never": KHDDDItemData(
+        category="Energy",
+        code=264_1025,
+        type=ItemClassification.useful,
+        qty = 5
     ),
 
     ############################################

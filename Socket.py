@@ -39,7 +39,7 @@ class MessageType(IntEnum):
     RequestingEnergy=21, #Game mod wants energy
     SendingEnergy=22, #Game mod is sending energy
     DropMult=23,
-    DepositingEnergy=24 #Direct deposit from player
+    DepositingEnergy=24 #Direct deposit from player & Adds drop-me-not/never
 
 class DDDCommand(IntEnum):
     DROP = 0
@@ -230,7 +230,8 @@ class KHDDDSocket():
             self.client_item_index = int(message[1])
 
         elif msgType == MessageType.DataStorage:
-            self.client.set_data_storage(message[1], message[2], message[3])
+            # Older Lua sends no spirit menu field
+            self.client.set_data_storage(*message[1:5])
 
         elif msgType == MessageType.ScoutBoard:
            print("Received scouting request for spirit "+message[1])

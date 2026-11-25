@@ -81,6 +81,7 @@ class KHDDDContext(SuperContext):
     tags = {"AP"}
     items_handling = 0b111 #Attempt full remote
     death_link: bool = False
+    energy_link: bool = False
 
     sent_notifications = 0
 
@@ -164,7 +165,18 @@ class KHDDDContext(SuperContext):
             asyncio.create_task(self.send_slot_data(), name="KHDDDSendSlotData")
             self.locations_checked = set(args['checked_locations'])
             self.send_room()
-        
+            self.energy_link = bool(self.slot_data_info.get("drop_energy_link"))
+            asyncio.create_task(self.update_energy_link(self.energy_link), name="KHDDDEnergyLinkTag")
+            if self.energy_link:
+                self.set_notify(self.energy_link_key)
+                if self.ui:
+                    self.ui.enable_energy_link()
+
+        if cmd in {"Retrieved"} and self.energy_link_key in args["keys"]:
+            self.current_energy_link_value = args["keys"][self.energy_link_key] or 0
+            if self.ui:
+                self.ui.set_new_energy_link_value()
+
         if cmd in {"ReceivedItems"}:
             self.scout_obtained_boards()
             if len(args["items"]) > 0:
@@ -181,7 +193,7 @@ class KHDDDContext(SuperContext):
                 self.locations_checked |= new_locations
 
         if cmd in {"SetReply"}:
-            if args["key"] == "EnergyLink0" and args["slot"] == self.slot: #Response from energy link
+            if args["key"] == self.energy_link_key and args["slot"] == self.slot: #Response from energy link
                 #logger.info("Requested energy link")
                 amt_got = args["original_value"] - args["value"]
                 if amt_got == 0:
@@ -329,10 +341,21 @@ class KHDDDContext(SuperContext):
     DP_CONVERSION_RATE = 2000000
     ENERGY_CONVERSION_RATE = 1000  # Should be 1:1000
 
+    @property
+    def energy_link_key(self) -> str:
+        return f"EnergyLink{self.team}"
+
+    async def update_energy_link(self, energy_link: bool):
+        logger.info(f"Updating Energy Link to {energy_link}")
+        if energy_link == ("EnergyLink" in self.tags):
+            return
+        self.tags = type(self.tags)(set(self.tags) ^ {"EnergyLink"})
+        await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
+
     def client_requested_energy(self, amt: float):
         asyncio.create_task(self.send_msgs([{
             "cmd": "Set",
-            "key": "EnergyLink0",
+            "key": self.energy_link_key,
             "default": 0,
             "want_reply": True,
             "operations": [
@@ -345,21 +368,23 @@ class KHDDDContext(SuperContext):
     def client_sent_energy(self, amt: float):
         asyncio.create_task(self.send_msgs([{
             "cmd": "Set",
-            "key": "EnergyLink0",
+            "key": self.energy_link_key,
             "tag": "<per-message uuid>",
             "default": 0,
-            "want_reply": True,
+            "want_reply": False,  # A reply would reach the SetReply handler as a negative withdrawal
             "operations": [
                 {"operation": "add", "value": amt},
             ]
         }]))
         logger.info("Stored " + str(amt) + " energy from player.")
 
-    def set_data_storage(self, world, room, character):
+    def set_data_storage(self, world, room, character, spirit_menu="0"):
         try:
-            self.last_room = {"world": int(world), "room": int(room), "character": int(character)}
+            self.last_room = {"world": int(world), "room": int(room), "character": int(character),
+                              "spirit_menu": bool(int(spirit_menu))}
         except (TypeError, ValueError):
-            logger.warning(f"Ignoring malformed room info from game: {world!r}, {room!r}, {character!r}")
+            logger.warning(f"Ignoring malformed room info from game: "
+                           f"{world!r}, {room!r}, {character!r}, {spirit_menu!r}")
             return
         self.send_room()
 
