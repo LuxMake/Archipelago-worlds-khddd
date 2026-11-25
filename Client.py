@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import asyncio
+import time
 
 from datetime import datetime, timedelta
 from typing import Dict
@@ -69,6 +70,12 @@ class KHDDDClientCommandProcessor(SuperCommandProcessor):
             lambda _: self.output(f"Death Link turned {'on' if self.ctx.death_link else 'off'}"))
         self.ctx.socket.send_client_cmd(DDDCommand.DEATH_LINK, str(self.ctx.death_link))
 
+    def _cmd_droplink(self):
+        self.ctx.drop_link = not self.ctx.drop_link
+        asyncio.create_task(self.ctx.update_drop_link(self.ctx.drop_link)).add_done_callback(
+            lambda _: self.output(f"Drop link turned {'on' if self.ctx.drop_link else 'off'}"))
+        self.ctx.socket.send_client_cmd(DDDCommand.DROP_LINK, str(self.ctx.drop_link))
+
     def _cmd_slot_data(self):
         """Prints slot data settings for the connected seed"""
         for key in self.ctx.slot_data_info.keys():
@@ -81,6 +88,7 @@ class KHDDDContext(SuperContext):
     tags = {"AP"}
     items_handling = 0b111 #Attempt full remote
     death_link: bool = False
+    drop_link: bool = False
     energy_link: bool = False
 
     sent_notifications = 0
@@ -270,11 +278,38 @@ class KHDDDContext(SuperContext):
         #Send to the game
         self.socket.send(8, [str(int(data["time"]))])
 
-    #def run_gui(self):
-    #    """Import kivy UI system and start running it as self.ui_task"""
+    ########Drop Link##########
 
-    #    self.ui = KHDDDManager(self)
-    #    self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+    def on_droplink(self, data: dict[str, object]):
+        self.last_drop_link = max(data["time"], self.last_drop_link)
+        text = data.get("cause", "")
+        if text:
+            logger.info("Drop Link: {text}")
+        else:
+            logger.info(f"Drop Link: Received from {data['source']}")
+        self.socket.send(25, [str(int(data["time"]))])
+
+    async def send_drop(self, drop_text: str = ""):
+        if self.server and self.server.socket:
+            logger.info("DropLink: Sending drop to your friends...")
+            self.last_drop_link = time.time()
+            await self.send_msgs([{
+                "cmd": "Bounce", "tags": ["DropLink"],
+                "data": {
+                    "time": self.last_drop_link,
+                    "source": self.player_names[self.slot],
+                    "cause": drop_text
+                }
+            }])
+
+    async def update_drop_link(self, drop_link: bool):
+        old_tags = self.tags.copy()
+        if drop_link:
+            self.tags.add("DropLink")
+        else:
+            self.tags -= {"DropLink"}
+        if old_tags != self.tags and self.server and not self.server.socket.closed:
+            await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
 
     def get_items(self):
         """Send all received items to the game client. This can't be async 
@@ -430,6 +465,16 @@ async def game_watcher(ctx: KHDDDContext):
                 if death_time + time_window >= datetime.now():
                     logger.info(f"Sending deathlink...")
                     await ctx.send_death(death_text=f"{ctx.username} fell to a nightmare")
+
+            if ctx.socket.dropTime != "" and ctx.drop_link:
+                #New drop detected
+                drop_time = datetime.strptime(ctx.socket.dropTime, '%Y%m%d%H%M%S')
+                ctx.socket.dropTime = ""
+                time_window = timedelta(seconds=90) #Grace period if players need to instantly drop back
+                if drop_time + time_window >= datetime.now():
+                    logger.info(f"Sending droplink...")
+                    await ctx.send_drop(drop_text=f"{ctx.username} dropped!")
+
 
             if ctx.socket.goaled and not ctx.finished_game:
                 await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

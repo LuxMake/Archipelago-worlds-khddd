@@ -40,11 +40,13 @@ class MessageType(IntEnum):
     SendingEnergy=22, #Game mod is sending energy
     DropMult=23,
     DepositingEnergy=24 #Direct deposit from player & Adds drop-me-not/never
+    DropLink=25
 
 class DDDCommand(IntEnum):
     DROP = 0
     UNSTUCK = 1
     DEATH_LINK = 3
+    DROP_LINK = 4
 
 # using slot data keys for the enum values
 class SlotDataType(IntEnum):
@@ -87,6 +89,7 @@ class KHDDDSocket():
         self.server_socket.setblocking(False)
         self.client_socket = None
         self.deathTime = ""
+        self.dropTime = ""
         self.goaled = False
         self.client_item_index = 0
         self.hasSlotData = False
@@ -107,7 +110,8 @@ class KHDDDSocket():
                 logger.info("KHDDD game client connected.")
                 self.isConnected = True
                 self.loop.create_task(self.listen())
-                self.send_client_cmd(DDDCommand.DEATH_LINK, str(self.client.death_link)) 
+                self.send_client_cmd(DDDCommand.DEATH_LINK, str(self.client.death_link))
+                self.send_client_cmd(DDDCommand.DROP_LINK, str(self.client.drop_link))
                 # Reapply deathlink to game after ddd websocket reconnect
                 # Slot data is queued first so the game has its settings (like lucky emblem count) before it receives the items
                 self.client.get_slot_data()
@@ -208,6 +212,9 @@ class KHDDDSocket():
 
         elif msgType == MessageType.Deathlink:
             self.deathTime = message[1]
+
+        elif msgType == MessageType.DropLink:
+            self.dropTime = message[1]
 
         elif msgType == MessageType.Victory:
             self.goaled = True

@@ -187,7 +187,7 @@ class StatBonusAmount(Range):
     Only applies to Strength, Defense, and Magic increases.
     """
     display_name = "Stat Bonus Amount"
-    default = 2
+    default = 1
     range_start = 1
     range_end = 5
 
@@ -197,9 +197,9 @@ class StrengthInPool(Range):
     Does nothing if Stats On Levels is enabled.
     """
     display_name = "Strength in Pool"
-    default = 18
+    default = 60
     range_start = 0
-    range_end = 50
+    range_end = 99
 
 class MagicInPool(Range):
     """
@@ -207,9 +207,9 @@ class MagicInPool(Range):
     Does nothing if Stats On Levels is enabled.
     """
     display_name = "Magic in Pool"
-    default = 18
+    default = 60
     range_start = 0
-    range_end = 50
+    range_end = 99
 
 class DefenseInPool(Range):
     """
@@ -217,9 +217,9 @@ class DefenseInPool(Range):
     Does nothing if Stats On Levels is enabled.
     """
     display_name = "Defense in Pool"
-    default = 15
+    default = 60
     range_start = 0
-    range_end = 50
+    range_end = 99
 
 class PlayDestinyIslands(Toggle):
     """
@@ -251,17 +251,6 @@ class EnableDropGauge(Toggle):
     display_name = "Enable Drop Gauge"
     default = False
 
-class DropLink(Toggle):
-    """
-    Enables Drop Link.
-    Whenever a DDD player drops, all DDD players drop.
-
-    NOTE: If Enable Drop Gauge is disabled, then this will
-    only trigger when receiving an instant drop trap. Manually
-    dropping will not trigger this.
-    """
-    display_name = "Enable Drop Link"
-
 class EnergyLink(Toggle):
     """
     Enables Energy Link for your Drop Gauge.
@@ -272,7 +261,7 @@ class EnergyLink(Toggle):
 
     Requires Enable Drop Gauge to be enabled.
     """
-    display_name = "Enable Energy Link"
+    display_name = "Enable Energy Link (Experimental)"
 
 
 class FastGoMode(Toggle):
@@ -421,7 +410,6 @@ class KHDDDOptions(PerGameCommonOptions):
     play_destiny_islands: PlayDestinyIslands
     skip_light_cycle: SkipLightCycle
     enable_drop_gauge: EnableDropGauge
-    drop_link: DropLink
     drop_energy_link: EnergyLink
     fast_go_mode: FastGoMode
     exp_multiplier: ExpMultiplier
@@ -451,7 +439,7 @@ khddd_option_groups: list[OptionGroup] = [
     OptionGroup("Game Options", [
         Character, Goal, AVN, EmblemsRequired, EmblemsInPool, RecipeReqs, RecipesInPool,
         MinGateReq, MaxGateReq, StartingWorlds, Superbosses, LordKyroo, LinkBoardSanity,
-        PlayDestinyIslands, SkipLightCycle, EnableDropGauge, DropLink, EnergyLink, FastGoMode,
+        PlayDestinyIslands, SkipLightCycle, EnableDropGauge, EnergyLink, FastGoMode,
     ]),
     OptionGroup("Quality of Life", [
         ExpMultiplier, StartWithSuperJump, LevelCap, StatsOnLevels, StatBonusAmount,
