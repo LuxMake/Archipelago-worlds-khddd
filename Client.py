@@ -89,6 +89,7 @@ class KHDDDContext(SuperContext):
     items_handling = 0b111 #Attempt full remote
     death_link: bool = False
     drop_link: bool = False
+    last_drop = datetime.now().strftime('%Y%m%d%H%M%S')
     energy_link: bool = False
 
     sent_notifications = 0
@@ -470,9 +471,12 @@ async def game_watcher(ctx: KHDDDContext):
                 #New drop detected
                 drop_time = datetime.strptime(ctx.socket.dropTime, '%Y%m%d%H%M%S')
                 ctx.socket.dropTime = ""
-                time_window = timedelta(seconds=90) #Grace period if players need to instantly drop back
-                if drop_time + time_window >= datetime.now():
+                time_window = timedelta(seconds=20)
+                grace_window = timedelta(seconds=90)
+                current_time = datetime.now()
+                if drop_time + time_window >= current_time >= datetime.strptime(ctx.last_drop, "%Y%m%d%H%M%S") + grace_window:
                     logger.info(f"Sending droplink...")
+                    ctx.last_drop = drop_time.strftime('%Y%m%d%H%M%S')
                     await ctx.send_drop(drop_text=f"{ctx.username} dropped!")
 
 
