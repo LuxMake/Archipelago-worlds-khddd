@@ -406,12 +406,12 @@ class KHDDDOptions(PerGameCommonOptions):
     emblems_in_pool: EmblemsInPool
     recipe_reqs: RecipeReqs
     recipes_in_pool: RecipesInPool
+    link_board_sanity: LinkBoardSanity
     min_gate_req: MinGateReq
     max_gate_req: MaxGateReq
     starting_worlds: StartingWorlds
     superbosses: Superbosses
     lord_kyroo: LordKyroo
-    link_board_sanity: LinkBoardSanity
     play_destiny_islands: PlayDestinyIslands
     skip_light_cycle: SkipLightCycle
     enable_drop_gauge: EnableDropGauge
