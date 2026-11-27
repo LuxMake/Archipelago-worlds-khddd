@@ -397,7 +397,7 @@ class KHDDDWorld(World):
             self.get_location("All Lucky Emblems Found [Sora] [Riku]").place_locked_item(self.create_item("Victory"))
 
     def place_board_filler(self) -> None:
-        if self.options.link_board_sanity:
+        if self.options.link_board_sanity > 0:
             return
         for location in self.multiworld.get_unfilled_locations(self.player):
             if location_data_table[location.name].category == "Board":

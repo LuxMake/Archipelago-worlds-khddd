@@ -126,13 +126,18 @@ class LordKyroo(Toggle):
     display_name = "Lord Kyroo"
     default = True
 
-class LinkBoardSanity(Toggle):
+class LinkBoardSanity(Choice):
     """
     Determines whether Ability Link Board nodes can contain any item.
-    If disabled, every node is filled with local filler items.
+    Filler Only: Link Boards are randomized but only contain filler items
+    Enabled: Link Boards are fully randomized.
+    Vanilla: Link Boards contain vanilla items are have their locations excluded.
     """
     display_name = "Link Board Sanity"
-    default = True
+    default = 1
+    option_filler_only = 0
+    option_enabled = 1
+    option_vanilla = 2
 
 class LevelCap(Range):
     """

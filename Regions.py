@@ -81,6 +81,10 @@ def create_regions(multiworld: MultiWorld, player: int, options, khdddworld):
         if data.region == "Destiny Islands" and not options.play_destiny_islands or options.character > 1 and data.region == "Destiny Islands":
             continue
 
+        #Exclude nodes on vanilla seeds
+        if name.find("Node") > -1 and options.link_board_sanity == 2:
+            continue
+
         # Skip character-specific locations
         if name.find("Superbosses") == -1:
             if options.character == 1 and name.find("Sora") == -1 or options.character == 2 and name.find("Riku") == -1:

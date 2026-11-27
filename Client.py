@@ -89,7 +89,7 @@ class KHDDDContext(SuperContext):
     items_handling = 0b111 #Attempt full remote
     death_link: bool = False
     drop_link: bool = False
-    last_drop = datetime.now().strftime('%Y%m%d%H%M%S')
+    last_drop_link = time.time()
     energy_link: bool = False
 
     sent_notifications = 0
@@ -214,6 +214,12 @@ class KHDDDContext(SuperContext):
                 logger.info("Sending energy to game.")
                 self.socket.send_energy_to_player(amt_got)
 
+        if cmd in {"Bounced"}:
+            tags = args.get("tags", [])
+            data = args.get("data", {})
+            if "DropLink" in tags:
+                self.on_droplink(data)
+
 
 
         #Send scouted board data to client for displaying item names
@@ -285,7 +291,7 @@ class KHDDDContext(SuperContext):
         self.last_drop_link = max(data["time"], self.last_drop_link)
         text = data.get("cause", "")
         if text:
-            logger.info("Drop Link: {text}")
+            logger.info(f"Drop Link: {text}")
         else:
             logger.info(f"Drop Link: Received from {data['source']}")
         self.socket.send(25, [str(int(data["time"]))])
@@ -293,15 +299,17 @@ class KHDDDContext(SuperContext):
     async def send_drop(self, drop_text: str = ""):
         if self.server and self.server.socket:
             logger.info("DropLink: Sending drop to your friends...")
-            self.last_drop_link = time.time()
-            await self.send_msgs([{
-                "cmd": "Bounce", "tags": ["DropLink"],
-                "data": {
-                    "time": self.last_drop_link,
-                    "source": self.player_names[self.slot],
-                    "cause": drop_text
-                }
-            }])
+            grace_window = 90
+            if time.time() > self.last_drop_link + grace_window:
+                self.last_drop_link = time.time()
+                await self.send_msgs([{
+                    "cmd": "Bounce", "tags": ["DropLink"],
+                    "data": {
+                        "time": self.last_drop_link,
+                        "source": self.player_names[self.slot],
+                        "cause": drop_text
+                    }
+                }])
 
     async def update_drop_link(self, drop_link: bool):
         old_tags = self.tags.copy()
@@ -472,9 +480,8 @@ async def game_watcher(ctx: KHDDDContext):
                 drop_time = datetime.strptime(ctx.socket.dropTime, '%Y%m%d%H%M%S')
                 ctx.socket.dropTime = ""
                 time_window = timedelta(seconds=20)
-                grace_window = timedelta(seconds=90)
                 current_time = datetime.now()
-                if drop_time + time_window >= current_time >= datetime.strptime(ctx.last_drop, "%Y%m%d%H%M%S") + grace_window:
+                if drop_time + time_window >= current_time:
                     logger.info(f"Sending droplink...")
                     ctx.last_drop = drop_time.strftime('%Y%m%d%H%M%S')
                     await ctx.send_drop(drop_text=f"{ctx.username} dropped!")

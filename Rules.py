@@ -109,14 +109,15 @@ def set_rules(khdddworld):
     options = khdddworld.options
 
     #Make all Link Board nodes require base recipe
-    node_gate_rules = gate_rules(khdddworld.gate_requirements)
-    for name, data in location_name_groups.items():
-        if "Ability Link" in name:
-            spirit_name = name[:-13] #Trim " Ability Link"
+    if options.link_board_sanity < 2:
+        node_gate_rules = gate_rules(khdddworld.gate_requirements)
+        for name, data in location_name_groups.items():
+            if "Ability Link" in name:
+                spirit_name = name[:-13] #Trim " Ability Link"
 
-            if SPIRITLIST[spirit_name] in khdddworld.ids_for_gates: #Only add rule for recipes in the pool
-                for nodes in data:
-                    khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & node_gate_rules.get(nodes, True_()))
+                if SPIRITLIST[spirit_name] in khdddworld.ids_for_gates: #Only add rule for recipes in the pool
+                    for nodes in data:
+                        khdddworld.set_rule(khdddworld.get_location(nodes), Has(spirit_name+" Recipe") & node_gate_rules.get(nodes, True_()))
 
 
     #Ensure the player is not expected to level grind much for checks
