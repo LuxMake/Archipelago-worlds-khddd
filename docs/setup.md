@@ -6,7 +6,7 @@ BEFORE MODDING, PLEASE INSTALL AND RUN KHDDD AT LEAST ONCE.
 - Download the latest release of OpenKH here: https://github.com/OpenKH/OpenKh/releases/tag/latest
 - Extract the files to a directory of your choosing.
 - Open OpenKh.Tools.ModsManager.exe and run first time set up.
-- When prompted for game edition, choose PC, choose which platform you are playing on (**Only Steam is supported right now**), navigate to your KH 2.8 installation folder in the path box, then click "Next".
+- When prompted for game edition, choose PC, choose which platform you are playing on (**Both Steam and EGS versions are supported!**), navigate to your KH 2.8 installation folder in the path box, then click "Next".
 - When prompted, install Panacea. Make sure you have the Kingdom Hearts 2.8 collection selected, then click "Next".
 - When prompted, check KH3D and click "Install and Configure Lua Backend" then click "Next".
 - Extracting game data for KHDDD is unnecessary.
